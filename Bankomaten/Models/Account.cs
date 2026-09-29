@@ -12,7 +12,7 @@ namespace Bankomaten.Models
         private User User;
         private double Balance;
 
-        //Account Type - testing enum for fun
+        //Account Type - testar enum för skojs
         public enum AccType
         {
             Savings,
@@ -24,7 +24,7 @@ namespace Bankomaten.Models
         public int id
         {
             get { return Id; }
-            //No set - user can not change the account Id
+            //Inget set - användaren får inte ändra kontots Id
         }
         public string name
         {
