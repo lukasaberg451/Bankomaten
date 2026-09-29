@@ -6,5 +6,6 @@ namespace Bankomaten.Models
 {
     internal class Bank
     {
+       
     }
 }
