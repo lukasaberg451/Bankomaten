@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 
 namespace Bankomaten.Models
@@ -38,6 +39,36 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine($"Ett oväntat fel uppstod: {ex.Message}");
             }
+        }
+
+        public void WithdrawAmount()
+        {
+            try
+            {
+                Console.Write("Hur mycket vill du lägga in: ");
+                double sum = double.Parse(Console.ReadLine());
+                double accounttotal = Accounts.balance;
+
+                if (accounttotal > sum)
+                {
+                    Total = accounttotal - sum;
+
+                }
+                else
+                {
+                    Console.WriteLine("Det finns för lite på kontot"
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input: Inmatningen var inte ett giltigt tal");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ett oväntat fel uppstod: {ex.Message}");
+            }
+
+        }
         }
 
     }
