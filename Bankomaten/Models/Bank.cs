@@ -45,7 +45,7 @@ namespace Bankomaten.Models
         {
             try
             {
-                Console.Write("Hur mycket vill du lägga in: ");
+                Console.Write("Hur mycket vill du ta ut: ");
                 decimal sum = decimal.Parse(Console.ReadLine());
                 decimal accounttotal = Accounts.balance;
 
