@@ -1,4 +1,4 @@
-<img width="1320" height="420" alt="Blank document" src="https://github.com/user-attachments/assets/7f136157-a247-4db9-921e-f57f2b1935ef" />
+<img width="1220" height="620" alt="Bankomaten" src="https://github.com/user-attachments/assets/304aef09-c6d8-451e-90e5-3971e2eb6d88" />
 
 # Arbetsfördelning
 Ammar
