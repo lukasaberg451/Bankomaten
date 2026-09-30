@@ -46,17 +46,19 @@ namespace Bankomaten.Models
             try
             {
                 Console.Write("Hur mycket vill du lägga in: ");
-                double sum = double.Parse(Console.ReadLine());
-                double accounttotal = Accounts.balance;
+                decimal sum = decimal.Parse(Console.ReadLine());
+                decimal accounttotal = Accounts.balance;
 
                 if (accounttotal > sum)
                 {
-                    Total = accounttotal - sum;
+                    decimal total = accounttotal - sum;
+                    Accounts.balance = total;
+                    Console.WriteLine($"Det nya saldot på kontot: {Accounts.balance}" );
 
                 }
                 else
                 {
-                    Console.WriteLine("Det finns för lite på kontot"
+                    Console.WriteLine("Det finns för lite på kontot");
                 }
             }
             catch (FormatException)
