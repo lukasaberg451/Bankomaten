@@ -9,7 +9,7 @@ namespace Bankomaten.Models
         public static User AuthenticateUser()
         {
             // For testing pending the real list
-            User testUser = new("lukas", "123");
+            User testUser = new("lukas", "1234");
             List<User> users = new List<User>();
             users.Add(testUser);
             
@@ -25,10 +25,10 @@ namespace Bankomaten.Models
                 Console.Write("Användarnamn: ");
                 string username = Console.ReadLine();
 
-                Console.Write("Lösenord: ");
-                string password = Console.ReadLine();
+                Console.Write("Pinkod: ");
+                string pin = Console.ReadLine();
 
-                user = users.FirstOrDefault(u => u.UserName == username && u.PassWord == password);
+                user = users.FirstOrDefault(u => u.UserName == username && u.PassWord == pin);
 
                 if (user != null)
                 {
