@@ -11,7 +11,7 @@ namespace Bankomaten.Models
         private int AccountNumber;
         private string AccountName;
         //private User User;
-        private double Balance;
+        private decimal Balance;
 
         //Account Type - testar enum för skojs
         public enum accountType
@@ -23,7 +23,7 @@ namespace Bankomaten.Models
         private accountType AccountType;
 
         // Constructor
-        public Account(string accountname, double balance, accountType accounttype)
+        public Account(string accountname, decimal balance, accountType accounttype)
         {
             Id = id;
             Random randomId = new Random();
@@ -50,7 +50,7 @@ namespace Bankomaten.Models
             get { return AccountName; }
             set { AccountName = value; }
         }
-        public double balance
+        public decimal balance
         {
             get { return Balance; }
             set { Balance = value; }
