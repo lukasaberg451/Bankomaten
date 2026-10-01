@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bankomaten.Models
+﻿namespace Bankomaten.Models
 {
     internal class Account
     {
         //Fields
-        private int Id;
+        static int Id = 0;
         private int AccountNumber;
         private string AccountName;
         //private User User;
@@ -25,7 +21,7 @@ namespace Bankomaten.Models
         // Constructor
         public Account(string accountname, decimal balance, accountType accounttype)
         {
-            Id = id;
+            Id = GenerateId();
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
@@ -59,6 +55,20 @@ namespace Bankomaten.Models
         {
             get { return AccountType; }
             set { AccountType = value; }
+        }
+
+        // Metod för att generera ett nytt nummer till konto Id
+        static int GenerateId()
+        {
+            return Id++;
+        }
+
+        // Metod för att skapa ett nytt konto
+        public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
+        {
+            Account account = new Account(accountname, balance, accounttype);
+            Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
+            return account;
         }
 
     }
