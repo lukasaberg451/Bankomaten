@@ -15,9 +15,9 @@ namespace Bankomaten.Models
         //Account Type - testar enum för skojs
         public enum accountType
         {
-            Savings,
-            Salary,
-            Funds
+            Sparkonto,
+            Lönekonto,
+            Depåkonto
         }
         private accountType AccountType;
 
