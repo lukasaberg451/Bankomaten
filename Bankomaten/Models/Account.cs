@@ -8,8 +8,9 @@ namespace Bankomaten.Models
     {
         //Fields
         private int Id;
+        private int AccountNumber;
         private string AccountName;
-        private User User;
+        //private User User;
         private double Balance;
 
         //Account Type - testar enum för skojs
@@ -22,12 +23,13 @@ namespace Bankomaten.Models
         private accountType AccountType;
 
         // Constructor
-        public Account(string accountname, User user, double balance, accountType accounttype)
+        public Account(string accountname, double balance, accountType accounttype)
         {
+            Id = id;
             Random randomId = new Random();
-            Id = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
+            AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
-            User = user;
+            //User = user;
             Balance = balance;
             AccountType = accounttype;
         }
@@ -37,6 +39,11 @@ namespace Bankomaten.Models
         {
             get { return Id; }
             //Inget set - användaren får inte ändra kontots Id
+        }
+        public int accountNumber
+        {
+            get { return AccountNumber; }
+            //Inget set - användaren får inte ändra kontotnummer
         }
         public string name
         {
@@ -53,5 +60,6 @@ namespace Bankomaten.Models
             get { return AccountType; }
             set { AccountType = value; }
         }
+
     }
 }
