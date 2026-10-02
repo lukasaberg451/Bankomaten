@@ -1,4 +1,5 @@
 ﻿using Bankomaten.Models;
+using static Bankomaten.Models.Account;
 
 namespace Bankomaten
 {
@@ -6,27 +7,28 @@ namespace Bankomaten
     {
         static void Main(string[] args)
         {
-            Login loginUser = new();
+            Account account1 = new Account("testkonto", 20300, accountType.Sparkonto);
+            Account account2 = new Account("testkonto2", 10600, accountType.Depåkonto);
+            Account account3 = new Account("testkonto3", 20030, accountType.Lönekonto);
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
-            Console.ResetColor();
-
-            Console.Write("Användarnamn: ");
-            string username = Console.ReadLine();
-
-            Console.Write("Lösenord: ");
-            string password = Console.ReadLine();
-
-            bool isAuthenticated = loginUser.AuthenticateUser(username, password);
-
-            if (isAuthenticated)
+            while (true)
             {
-                Menu.BankMenu(isAuthenticated);
-            }
-            else
-            {
-                Console.WriteLine("Fel användarnamn eller lösenord");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
+                Console.ResetColor();
+
+                User user = Login.AuthenticateUser();
+
+                if (user != null)
+                {
+                    Menu.BankMenu(user);
+                }
+                else
+                {
+                    Console.WriteLine("Locked out!");
+                    Console.ReadKey();
+                    break;
+                }                
             }
         }
     }
