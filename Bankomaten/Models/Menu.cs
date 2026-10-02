@@ -6,9 +6,11 @@ namespace Bankomaten.Models
 {
     internal class Menu
     {
-        public static void BankMenu(bool isAuthenticated)
+        public static void BankMenu(User user)
         {
-            while (isAuthenticated)
+            int wantsToLogOut = 0;
+
+            while (wantsToLogOut != 4)
             {
                 ShowMenuOptions();
 
@@ -20,23 +22,27 @@ namespace Bankomaten.Models
 
                 switch (userSelection)
                 {
+                    // Se konto och saldo
                     case 1:
                         //CheckAmount()
-                        Console.WriteLine("TODO, konto och saldo"); // Se konto och saldo
+                        Console.WriteLine("TODO, konto och saldo");
                         break;
 
+                    // Överföring
                     case 2:
-                        Console.WriteLine("TODO, överföring"); // Överföring
+                        Console.WriteLine("TODO, överföring");
                         break;
 
+                    // Ta ut pengar
                     case 3:
                         //WithdrawAmount()
-                        Console.WriteLine("TODO, ta ut pengar"); // Ta ut pengar
+                        Console.WriteLine("TODO, ta ut pengar");
                         break;
 
+                    // Logga ut
                     case 4:
-                        Console.WriteLine("TODO, logga ut"); // Logga ut
-                        isAuthenticated = false;
+                        Console.WriteLine("Du är utloggad");
+                        wantsToLogOut = 4;
                         break;
 
                     default:
