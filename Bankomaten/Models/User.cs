@@ -8,7 +8,6 @@ namespace Bankomaten.Models
 {
     internal class User
     {
-        private int accountNumber;
         // Lagrar användarens användarnamn
         public string UserName { get; set; }
 
@@ -18,14 +17,22 @@ namespace Bankomaten.Models
         //Lista på användarens konton
         public List<Account> Accounts { get; set; }
 
-        private static List<User> Users = new List<User>
-        {// add id
-            new User("Ammar", "1234"),
-            new User("Mattias", "1234"),
-            new User("Lukas", "1234"),
-            new User("Marco", "1234"),
-            new User("Kalle", "1234")
-        };
+
+
+
+
+        static void AddUser()
+        {
+            List<User> listUser = new List<User>();
+
+            User user1 = new User("Ammar", "1234");
+            User user2 = new User("Mattias", "1234");
+            User user3 = new User("Lukas", "1234");
+            User user4 = new User("Marco", "1234");
+            User user5 = new User("Kalle", "1234");
+        }
+
+
 
         public User(string userName, string passWord)
         {
@@ -47,25 +54,11 @@ namespace Bankomaten.Models
 
 
         }
-        public static User FindUser(string userName , string passWord)
+        public User FindUser(string userName, string passWord, List<User> listUser)
         {
-            User user = Users.FirstOrDefault(u => u.UserName == userName && u.PassWord == passWord);
+            User user = listUser.FirstOrDefault(u => u.UserName == userName && u.PassWord == passWord);
             return user;
         }
-
-        public Account GetAccount(int accountnumber)
-        {
-            foreach (Account account in Accounts)
-            {
-                if (accountNumber == accountnumber)
-                {
-                    return account;
-                }
-
-            }
-            return null;
-        }
-
 
 
     }

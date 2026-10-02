@@ -24,8 +24,8 @@ namespace Bankomaten.Models
                 {
                     // Se konto och saldo
                     case 1:
-                        Bank.CheckAmount(user);
-                        //Console.WriteLine("TODO, konto och saldo");
+                        //CheckAmount()
+                        Console.WriteLine("TODO, konto och saldo");
                         break;
 
                     // Överföring
@@ -55,7 +55,7 @@ namespace Bankomaten.Models
         public static void ShowMenuOptions()
         {
             string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Ta ut pengar", "4. Logga ut" };
-            
+
             foreach (string option in options)
             {
                 Console.WriteLine(option);

@@ -7,10 +7,6 @@ namespace Bankomaten
     {
         static void Main(string[] args)
         {
-            
-
-
-
             Account account1 = new Account("testkonto", 20300, accountType.Sparkonto);
             Account account2 = new Account("testkonto2", 10600, accountType.Depåkonto);
             Account account3 = new Account("testkonto3", 20030, accountType.Lönekonto);
@@ -29,9 +25,10 @@ namespace Bankomaten
                 }
                 else
                 {
-                    Console.WriteLine("Starta om systemet för att försöka igen");
+                    Console.WriteLine("Locked out!");
+                    Console.ReadKey();
                     break;
-                }                
+                }
             }
         }
     }
