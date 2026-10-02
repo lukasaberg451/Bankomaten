@@ -16,7 +16,7 @@ namespace Bankomaten.Models
         
             _account = account;
         }
-        public void CheckAmount()
+        public void CheckAmount(User user)
         {
             var user = new User();
             
