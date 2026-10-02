@@ -69,6 +69,16 @@
         {
             return Id++;
         }
+        //Metod för att visa kontodetaljer
+        public void ShowAccount(Account account)
+        {
+            Console.WriteLine($"===== Konto {account.AccountNumber} =====");
+            Console.WriteLine($"Bankens Referens: {account.id}");
+            Console.WriteLine($"Kontonamn: {account.AccountName}");
+            Console.WriteLine($"Kontotyp : {account.AccountType}");
+            Console.WriteLine($"Saldo : {account.Balance}");
+            Console.WriteLine($"===========================");
+        }
 
         /* Metod för att skapa ett nytt konto
         public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
