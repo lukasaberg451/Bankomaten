@@ -4,6 +4,7 @@
     {
         //Fields
         static int Id = 0;
+        private int OwnerId;
         private int AccountNumber;
         private string AccountName;
         //private User User;
@@ -19,9 +20,10 @@
         private accountType AccountType;
 
         // Constructor
-        public Account(string accountname, decimal balance, accountType accounttype)
+        public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
         {
             Id = GenerateId();
+            OwnerId = ownerid;
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
@@ -35,6 +37,11 @@
         {
             get { return Id; }
             //Inget set - användaren får inte ändra kontots Id
+        }
+        public int ownerId
+        {
+            get { return OwnerId; }
+            set { OwnerId = value; }
         }
         public int accountNumber
         {
@@ -63,13 +70,13 @@
             return Id++;
         }
 
-        // Metod för att skapa ett nytt konto
+        /* Metod för att skapa ett nytt konto
         public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
         {
             Account account = new Account(accountname, balance, accounttype);
             Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
             return account;
-        }
+        }*/
 
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
+﻿using System.Diagnostics.Metrics;
 using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
@@ -23,13 +20,13 @@ namespace Bankomaten.Models
 
         static void AddUser()
         {
-         List<User> listUser = new List<User>();
+            List<User> listUser = new List<User>();
 
-        User user1 = new User("Ammar", "1234");
-        User user2 = new User("Mattias", "1234");
-        User user3 = new User("Lukas", "1234");
-        User user4 = new User("Marco", "1234");
-        User user5 = new User("Kalle", "1234");
+            User user1 = new User("Ammar", "1234");
+            User user2 = new User("Mattias", "1234");
+            User user3 = new User("Lukas", "1234");
+            User user4 = new User("Marco", "1234");
+            User user5 = new User("Kalle", "1234");
         }
 
 
@@ -39,6 +36,15 @@ namespace Bankomaten.Models
             UserName = userName;
             PassWord = passWord;
             Accounts = new List<Account>();
+            //Account acc new Account()
+
+            Account account1 = new Account(1, "testkonto", 20300, accountType.Sparkonto);
+            Account account2 = new Account(1, "testkonto2", 10600, accountType.Depåkonto);
+            Account account3 = new Account(1, "testkonto3", 20030, accountType.Lönekonto);
+
+            Accounts.Add(account1);
+            Accounts.Add(account2);
+            Accounts.Add(account2);
         }
 
         public void ShowUserInfo()
@@ -49,12 +55,9 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine($" - Konto: {account.name} | Saldo: {account.balance}");
             }
-
-
-
-
         }
-        public User FindUser(string userName , string passWord, List<User> listUser)
+
+        public User FindUser(string userName, string passWord, List<User> listUser)
         {
             User user = listUser.FirstOrDefault(u => u.UserName == userName && u.PassWord == passWord);
             return user;
