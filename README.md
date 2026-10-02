@@ -32,6 +32,7 @@ TransferMoney
 class Account + constructor
 ### Fields
 Id <br>
+AccountNumber <br>
 User <br>
 AccountName <br>
 AccountType <br>

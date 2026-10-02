@@ -11,6 +11,25 @@ namespace Bankomaten
             Account account2 = new Account("testkonto2", 10600, accountType.Depåkonto);
             Account account3 = new Account("testkonto3", 20030, accountType.Lönekonto);
 
+            while (true)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
+                Console.ResetColor();
+
+                User user = Login.AuthenticateUser();
+
+                if (user != null)
+                {
+                    Menu.BankMenu(user);
+                }
+                else
+                {
+                    Console.WriteLine("Locked out!");
+                    Console.ReadKey();
+                    break;
+                }                
+            }
         }
     }
 }
