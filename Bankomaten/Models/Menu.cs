@@ -8,9 +8,9 @@ namespace Bankomaten.Models
     {
         public static void BankMenu(User user)
         {
-            int wantsToLogOut = 0;
+            int logOut = 0;
 
-            while (wantsToLogOut != 4)
+            while (logOut != 4)
             {
                 ShowMenuOptions();
 
@@ -24,8 +24,9 @@ namespace Bankomaten.Models
                 {
                     // Se konto och saldo
                     case 1:
-                        //CheckAmount()
-                        Console.WriteLine("TODO, konto och saldo");
+                        Console.WriteLine(user);
+                        //Bank.CheckAmount(user);
+                        //Console.WriteLine("TODO, konto och saldo");
                         break;
 
                     // Överföring
@@ -42,7 +43,7 @@ namespace Bankomaten.Models
                     // Logga ut
                     case 4:
                         Console.WriteLine("Du är utloggad");
-                        wantsToLogOut = 4;
+                        logOut = 4;
                         break;
 
                     default:

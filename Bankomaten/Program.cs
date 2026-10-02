@@ -25,8 +25,7 @@ namespace Bankomaten
                 }
                 else
                 {
-                    Console.WriteLine("Locked out!");
-                    Console.ReadKey();
+                    Console.WriteLine("Start om systemet för att försöka igen");
                     break;
                 }
             }
