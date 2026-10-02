@@ -24,20 +24,19 @@ namespace Bankomaten.Models
                 {
                     // Se konto och saldo
                     case 1:
-                        Console.WriteLine(user);
                         //Bank.CheckAmount(user);
-                        //Console.WriteLine("TODO, konto och saldo");
+                        Console.WriteLine("TODO");
                         break;
 
                     // Överföring
                     case 2:
-                        Console.WriteLine("TODO, överföring");
+                        Console.WriteLine("TODO");
                         break;
 
                     // Ta ut pengar
                     case 3:
-                        //WithdrawAmount()
-                        Console.WriteLine("TODO, ta ut pengar");
+                        //Bank.WithdrawAmount(user);
+                        Console.WriteLine("TODO");
                         break;
 
                     // Logga ut
