@@ -64,12 +64,13 @@
         }
 
         // Metod för att skapa ett nytt konto
-        public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
+        public Account CreateAccount(string accountname, decimal balance, accountType Type)
         {
-            Account account = new Account(accountname, balance, accounttype);
+            var account = new Account(accountname, balance, Type);
             Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
             return account;
         }
 
+        
     }
 }
