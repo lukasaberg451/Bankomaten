@@ -24,8 +24,8 @@ namespace Bankomaten.Models
                 {
                     // Se konto och saldo
                     case 1:
-                        //CheckAmount()
-                        Console.WriteLine("TODO, konto och saldo");
+                        Bank.CheckAmount(user);
+                        //Console.WriteLine("TODO, konto och saldo");
                         break;
 
                     // Överföring
