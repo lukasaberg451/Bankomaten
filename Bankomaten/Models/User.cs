@@ -36,7 +36,7 @@ namespace Bankomaten.Models
 
         static void AddUser()
         {
-         List<User> listUser = new List<User>();
+            List<User> listUser = new List<User>();
 
         User user1 = new User("Ammar", "1234", 1);
         User user2 = new User("Mattias", "1234", 2);
@@ -61,7 +61,7 @@ namespace Bankomaten.Models
 
 
         }
-        public User FindUser(string userName , string passWord, List<User> listUser)
+        public User FindUser(string userName, string passWord, List<User> listUser)
         {
             User user = listUser.FirstOrDefault(u => u.UserName == userName && u.PassWord == passWord);
             return user;

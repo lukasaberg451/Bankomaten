@@ -19,7 +19,7 @@ namespace Bankomaten.Models
 
                 int accountnumber = int.Parse(Console.ReadLine());
 
-                Account? account = Accounts.?????(accountnumber);
+                Account? account = Accounts.????? (accountnumber);
 
                 if (account != null)
                 {
@@ -53,7 +53,7 @@ namespace Bankomaten.Models
                 {
                     decimal total = accounttotal - sum;
                     Accounts.balance = total;
-                    Console.WriteLine($"Det nya saldot på kontot: {Accounts.balance}" );
+                    Console.WriteLine($"Det nya saldot på kontot: {Accounts.balance}");
 
                 }
                 else
@@ -71,7 +71,7 @@ namespace Bankomaten.Models
             }
 
         }
-        }
-
     }
+
+}
 }
