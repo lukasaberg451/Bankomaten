@@ -20,17 +20,6 @@ namespace Bankomaten.Models
 
         //Lista på användarens konton
         public List<Account> Accounts { get; set; }
-
-        private static List<User> UserList = new List<User>
-        {
-            new User("Ammar", "1234", 1),
-            new User("Mattias", "1234", 2),
-            new User("Lukas", "1234", 3),
-            new User("Marco", "1234", 4),
-            new User("Kalle", "1234", 5)
-        };
-          
-        
         
         // Konstruktor
         public User(string userName, string passWord, int userId)
@@ -49,12 +38,6 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine($" - Konto: {account.name} | Saldo: {account.balance}");
             }
-        }
-
-        public static User FindUser(string username, string password)
-        {
-            User user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == password);
-            return user;
         }
     }
 }
