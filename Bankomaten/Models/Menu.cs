@@ -6,11 +6,21 @@ namespace Bankomaten.Models
 {
     internal class Menu
     {
+        private static List<Account> AllAccounts = new List<Account>()
+        {
+            new Account(3, "Lukas konto 1", 1000, Account.accountType.Sparkonto),
+            new Account(3, "Lukas konto 2", 2000, Account.accountType.Lönekonto),
+            new Account(3, "Lukas konto 3", 3000, Account.accountType.Depåkonto),
+            new Account(4, "Marco konto 1", 100000, Account.accountType.Sparkonto)
+        };
+
         public static void BankMenu(User user)
         {
-            int wantsToLogOut = 0;
+            List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
-            while (wantsToLogOut != 4)
+            int logOut = 0;
+
+            while (logOut != 5)
             {
                 ShowMenuOptions();
 
@@ -22,27 +32,30 @@ namespace Bankomaten.Models
 
                 switch (userSelection)
                 {
-                    // Se konto och saldo
+                    // Se konton och saldo
                     case 1:
-                        //CheckAmount()
-                        Console.WriteLine("TODO, konto och saldo");
+                        Bank.CheckAmount(user, currentUserAccounts);
                         break;
 
                     // Överföring
                     case 2:
-                        Console.WriteLine("TODO, överföring");
+                        Console.WriteLine("TODO");
+                        break;
+
+                    // Sätta in pengar
+                    case 3:
+                        Console.WriteLine("TODO");
                         break;
 
                     // Ta ut pengar
-                    case 3:
-                        //WithdrawAmount()
-                        Console.WriteLine("TODO, ta ut pengar");
+                    case 4:
+                        Bank.WithdrawAmount(user, currentUserAccounts);
                         break;
 
                     // Logga ut
-                    case 4:
+                    case 5:
                         Console.WriteLine("Du är utloggad");
-                        wantsToLogOut = 4;
+                        logOut = 5;
                         break;
 
                     default:
@@ -55,7 +68,7 @@ namespace Bankomaten.Models
         public static void ShowMenuOptions()
         {
             string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Ta ut pengar", "4. Logga ut" };
-            
+
             foreach (string option in options)
             {
                 Console.WriteLine(option);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Net.NetworkInformation;
 using System.Text;
 using static Bankomaten.Models.Account;
 
@@ -14,6 +16,9 @@ namespace Bankomaten.Models
 
         // Lagrar användarens lösenord
         public string PassWord { get; set; }
+        
+        //lagrar ID för använadre
+        public int UserId { get; set; }
 
         //Lista på användarens konton
         public List<Account> Accounts { get; set; }
@@ -23,6 +28,7 @@ namespace Bankomaten.Models
         {
             UserName = userName;
             PassWord = passWord;
+            UserId = userId;
             Accounts = new List<Account>();
         }
 
@@ -32,7 +38,7 @@ namespace Bankomaten.Models
 
         public void ShowUserInfo()
         {
-            Console.WriteLine($"Användare : {UserName}");
+            Console.WriteLine($"Namn : {UserName} | AnvändarID : {UserId} ");
 
             foreach (Account account in Accounts)
             {
