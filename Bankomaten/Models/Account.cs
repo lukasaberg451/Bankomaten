@@ -8,6 +8,7 @@
         private string AccountName;
         //private User User;
         private decimal Balance;
+        private int OwnerId;
 
         //Account Type - testar enum för skojs
         public enum accountType
@@ -19,8 +20,9 @@
         private accountType AccountType;
 
         // Constructor
-        public Account(string accountname, decimal balance, accountType accounttype)
+        public Account(int ownerID, string accountname, decimal balance, accountType accounttype)
         {
+            ownerId = ownerID;
             Id = GenerateId();
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
@@ -57,6 +59,12 @@
             set { AccountType = value; }
         }
 
+        public int ownerId
+        {
+            get { return OwnerId; }
+            set { OwnerId = value; }
+        }
+
         // Metod för att generera ett nytt nummer till konto Id
         static int GenerateId()
         {
@@ -66,7 +74,7 @@
         // Metod för att skapa ett nytt konto
         public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
         {
-            Account account = new Account(accountname, balance, accounttype);
+            Account account = new Account(ownerId, accountname, balance, accounttype);
             Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
             return account;
         }
