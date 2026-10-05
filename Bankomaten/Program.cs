@@ -7,6 +7,7 @@ namespace Bankomaten
     {
         static void Main(string[] args)
         {
+
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
