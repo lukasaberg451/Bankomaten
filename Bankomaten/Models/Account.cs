@@ -9,6 +9,7 @@
         private string AccountName;
         //private User User;
         private decimal Balance;
+        private int OwnerId;
 
         //Account Type - testar enum för skojs
         public enum accountType
@@ -80,5 +81,6 @@
             }
         }
 
+        
     }
 }

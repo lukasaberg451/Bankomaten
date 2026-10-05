@@ -1,15 +1,24 @@
-﻿using System.Diagnostics.Metrics;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Net.NetworkInformation;
+using System.Text;
 using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
 {
     internal class User
     {
+        private int accountNumber;
+
         // Lagrar användarens användarnamn
         public string UserName { get; set; }
 
         // Lagrar användarens lösenord
         public string PassWord { get; set; }
+        
+        //lagrar ID för använadre
+        public int UserId { get; set; }
 
         //Lista på användarens konton
         public List<Account> Accounts { get; set; }
@@ -35,6 +44,7 @@ namespace Bankomaten.Models
         {
             UserName = userName;
             PassWord = passWord;
+            UserId = userId;
             Accounts = new List<Account>();
             //Account acc new Account()
 
@@ -47,9 +57,13 @@ namespace Bankomaten.Models
             Accounts.Add(account2);
         }
 
+        public User()
+        {
+        }
+
         public void ShowUserInfo()
         {
-            Console.WriteLine($"Användare : {UserName}");
+            Console.WriteLine($"Namn : {UserName} | AnvändarID : {UserId} ");
 
             foreach (Account account in Accounts)
             {
@@ -59,10 +73,18 @@ namespace Bankomaten.Models
 
         public User FindUser(string userName, string passWord, List<User> listUser)
         {
-            User user = listUser.FirstOrDefault(u => u.UserName == userName && u.PassWord == passWord);
-            return user;
+            foreach (Account account in Accounts)
+            {
+                if (accountNumber == accountnumber)
+                {
+                    return account;
+                }
+
+            }
+            return null;
         }
 
+        
 
     }
 }

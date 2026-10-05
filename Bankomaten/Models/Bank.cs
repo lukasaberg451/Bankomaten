@@ -5,12 +5,21 @@ using System.Linq.Expressions;
 using System.Numerics;
 using System.Text;
 
+
 namespace Bankomaten.Models
 {
     internal class Bank
     {
-        public void CheckAmount()
+        private static Account _account;
+
+        public Bank(Account account) { 
+        
+            _account = account;
+        }
+        public void CheckAmount(User user)
         {
+            var user = new User();
+            
             try
             {
 
@@ -19,11 +28,11 @@ namespace Bankomaten.Models
 
                 int accountnumber = int.Parse(Console.ReadLine());
 
-                Account? account = Accounts.?????(accountnumber);
+                Account? account = user.GetAccount(accountnumber);
 
                 if (account != null)
                 {
-                    Console.WriteLine($"Saldo på kontot: {Account.balance}");
+                    Console.WriteLine($"Saldo på kontot: {account.balance}");
                 }
                 else
                 {
@@ -41,37 +50,35 @@ namespace Bankomaten.Models
             }
         }
 
-        public void WithdrawAmount()
+        public static void WithdrawAmount(decimal withdrawamount, ref decimal balance)
         {
-            try
-            {
-                Console.Write("Hur mycket vill du ta ut: ");
-                decimal sum = decimal.Parse(Console.ReadLine());
-                decimal accounttotal = Accounts.balance;
-
-                if (accounttotal > sum)
-                {
-                    decimal total = accounttotal - sum;
-                    Accounts.balance = total;
-                    Console.WriteLine($"Det nya saldot på kontot: {Accounts.balance}" );
-
-                }
-                else
+             
+                if (balance <= withdrawamount)
                 {
                     Console.WriteLine("Det finns för lite på kontot");
                 }
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid input: Inmatningen var inte ett giltigt tal");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ett oväntat fel uppstod: {ex.Message}");
-            }
+                else
+                {
+                    decimal total = balance - withdrawamount;
+                    balance = total;
+                    Console.WriteLine($"Det nya saldot på kontot: {balance}");
 
-        }
+                }
         }
 
+        public static void Deposit(decimal amount)
+        {
+            if (amount <= 0)
+            {
+                Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller så är det noll");
+            }
+            else
+            {
+                _account.balance += amount;
+                Console.WriteLine($"Det nya saldot på kontot: {_account.balance}");
+            }
+        }
     }
+
 }
+
