@@ -8,7 +8,7 @@
         private string AccountName;
         //private User User;
         private decimal Balance;
-        private int OwnerId;
+        private int ownerId;
 
         //Account Type - testar enum för skojs
         public enum accountType
@@ -18,6 +18,7 @@
             Depåkonto
         }
         private accountType AccountType;
+        internal readonly object UserId;
 
         // Constructor
         public Account(int ownerID, string accountname, decimal balance, accountType accounttype)
@@ -59,10 +60,10 @@
             set { AccountType = value; }
         }
 
-        public int ownerId
+        public int OwnerId
         {
-            get { return OwnerId; }
-            set { OwnerId = value; }
+            get { return ownerId; }
+            set { ownerId = value; }
         }
 
         // Metod för att generera ett nytt nummer till konto Id
@@ -74,7 +75,7 @@
         // Metod för att skapa ett nytt konto
         public Account CreateAccount(string accountname, decimal balance, accountType Type)
         {
-            var account = new Account(accountname, balance, Type);
+            var account = new Account(OwnerId,accountname, balance, Type);
             Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
             return account;
         }

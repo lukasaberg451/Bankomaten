@@ -10,6 +10,7 @@ namespace Bankomaten.Models
     internal class User
     {
         private int accountNumber;
+        private int userId;
 
         // Lagrar användarens användarnamn
         public string UserName { get; set; }
@@ -24,7 +25,7 @@ namespace Bankomaten.Models
         public List<Account> Accounts { get; set; }
 
 
-        public User(string userName, string passWord)
+        public User(string userName, string passWord, int userId)
         {
             UserName = userName;
             PassWord = passWord;
@@ -48,18 +49,7 @@ namespace Bankomaten.Models
 
         }
 
-        public Account GetAccount(int accountnumber)
-        {
-            foreach (Account account in Accounts)
-            {
-                if (accountNumber == accountnumber)
-                {
-                    return account;
-                }
-
-            }
-            return null;
-        }
+        
 
         
 

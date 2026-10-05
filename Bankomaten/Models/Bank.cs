@@ -10,74 +10,69 @@ namespace Bankomaten.Models
 {
     internal class Bank
     {
-        private static Account _account;
 
-        public Bank(Account account) { 
-        
-            _account = account;
-        }
-        public void CheckAmount(User user)
+        private static List<Account> AllAccounts = new List<Account>();
+
+        //public static List<Account> AllAccounts => _allAccounts;
+
+        public static void CheckAmount(User user)
         {
-            var user = new User();
             
-            try
-            {
+            var accounts = AllAccounts.Where(a => a.OwnerId == user.UserId).ToList();
+
 
                 Console.WriteLine("\n --- Saldo -----");
-                Console.Write("Vilket konto vill du kontrollera:");
+                       
 
-                int accountnumber = int.Parse(Console.ReadLine());
-
-                Account? account = user.GetAccount(accountnumber);
-
-                if (account != null)
+                if (accounts.Count == 0)
                 {
-                    Console.WriteLine($"Saldo på kontot: {account.balance}");
+                    Console.WriteLine("Du har inga konton.");
+                    return;
                 }
-                else
-                {
-                    Console.WriteLine("Account not found!");
-                }
-            }
 
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid account number: Inmatningen var inte ett giltigt heltal");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ett oväntat fel uppstod: {ex.Message}");
-            }
+                Console.WriteLine("Dina konton:");
+                foreach (var acc in accounts)
+                {
+                    Console.WriteLine( $"Konto: {acc.name}, Saldo: {acc.balance:C}, Typ: {acc.accType}");
+                }
+          
         }
 
-        public static void WithdrawAmount(decimal withdrawamount, ref decimal balance)
+
+
+        public void WithdrawAmount(Account account, decimal withdrawAmount)
         {
-             
-                if (balance <= withdrawamount)
-                {
-                    Console.WriteLine("Det finns för lite på kontot");
-                }
-                else
-                {
-                    decimal total = balance - withdrawamount;
-                    balance = total;
-                    Console.WriteLine($"Det nya saldot på kontot: {balance}");
+            if (withdrawAmount <= 0)
+            {
+                Console.WriteLine("Beloppet måste vara större än noll.");
+                return;
+            }
 
-                }
+            if (withdrawAmount > account.balance)
+            {
+                Console.WriteLine("Det finns för lite på kontot");
+                return;
+            }
+
+            account.balance -= withdrawAmount;
+            Console.WriteLine($"Uttag: {withdrawAmount:C}. Nytt saldo: {account.balance:C}");
         }
 
-        public static void Deposit(decimal amount)
-        {
-            if (amount <= 0)
-            {
-                Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller så är det noll");
-            }
-            else
-            {
-                _account.balance += amount;
-                Console.WriteLine($"Det nya saldot på kontot: {_account.balance}");
-            }
-        }
+
+        //public static void Deposit(decimal amount)
+        //{
+        //    if (amount <= 0)
+        //    {
+        //        Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller så är det noll");
+        //    }
+        //    else
+        //    {
+        //        Account.balance += amount;
+        //        Console.WriteLine($"Det nya saldot på kontot: {Account.balance}");
+        //    }
+        //}
+
+
     }
 
 }
