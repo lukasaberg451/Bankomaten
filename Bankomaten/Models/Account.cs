@@ -3,7 +3,8 @@
     internal class Account
     {
         //Fields
-        static int Id = 0;
+        private static int Counter = 0;
+        private int OwnerId;
         private int AccountNumber;
         private string AccountName;
         //private User User;
@@ -20,10 +21,10 @@
         private accountType AccountType;
 
         // Constructor
-        public Account(int ownerID, string accountname, decimal balance, accountType accounttype)
+        public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
         {
-            ownerId = ownerID;
-            Id = GenerateId();
+            accountId = ++Counter;
+            OwnerId = ownerid;
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
@@ -33,10 +34,15 @@
         }
 
         // Properties
-        public int id
+        public int accountId
         {
-            get { return Id; }
+            get;
             //Inget set - användaren får inte ändra kontots Id
+        }
+        public int ownerId
+        {
+            get { return OwnerId; }
+            set { OwnerId = value; }
         }
         public int accountNumber
         {
@@ -58,25 +64,21 @@
             get { return AccountType; }
             set { AccountType = value; }
         }
-
-        public int ownerId
+        //Metod för att visa kontodetaljer
+        public void ShowAccounts(List<Account> accounts, int uid)
         {
-            get { return OwnerId; }
-            set { OwnerId = value; }
-        }
-
-        // Metod för att generera ett nytt nummer till konto Id
-        static int GenerateId()
-        {
-            return Id++;
-        }
-
-        // Metod för att skapa ett nytt konto
-        public Account CreateAccount(string accountname, decimal balance, accountType Type)
-        {
-            var account = new Account(accountname, balance, Type);
-            Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
-            return account;
+            foreach (Account a in accounts)
+            {
+                if (a.ownerId == uid)
+                {
+                    Console.WriteLine($"===== Konto {a.AccountNumber} =====");
+                    Console.WriteLine($"Bankens Referens: {a.accountId}");
+                    Console.WriteLine($"Kontonamn: {a.OwnerId} : {a.AccountName}");
+                    Console.WriteLine($"Kontotyp : {a.AccountType}");
+                    Console.WriteLine($"Saldo : {a.Balance}");
+                    Console.WriteLine($"===========================");
+                }
+            }
         }
 
         
