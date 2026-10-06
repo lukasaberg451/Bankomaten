@@ -9,7 +9,8 @@ namespace Bankomaten.Models
 {
     internal class User
     {
-        private int accountNumber;
+
+       
 
         // Lagrar användarens användarnamn
         public string UserName { get; set; }
@@ -20,6 +21,8 @@ namespace Bankomaten.Models
         //lagrar ID för använadre
         public int UserId { get; set; }
 
+
+        // Konstruktor
         public User(int userId, string userName, string passWord)
         {
             UserName = userName;
@@ -27,14 +30,6 @@ namespace Bankomaten.Models
             UserId = userId;
         }
 
-        public void ShowUserInfo()
-        {
-            Console.WriteLine($"Namn : {UserName} | AnvändarID : {UserId} ");
-
-            //foreach (Account account in Accounts)
-            //{
-            //    Console.WriteLine($" - Konto: {account.name} | Saldo: {account.balance}");
-            //}
-        }
+      
     }
 }
