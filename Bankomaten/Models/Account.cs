@@ -9,6 +9,7 @@
         private string AccountName;
         //private User User;
         private decimal Balance;
+        
 
         //Account Type - testar enum för skojs
         public enum accountType
@@ -18,6 +19,7 @@
             Depåkonto
         }
         private accountType AccountType;
+        internal readonly object UserId;
 
         // Constructor
         public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
@@ -46,7 +48,7 @@
         // Properties
         public int accountId
         {
-            get;
+            get; 
             //Inget set - användaren får inte ändra kontots Id
         }
         public int ownerId
@@ -67,7 +69,7 @@
         public decimal balance
         {
             get { return Balance; }
-            set { Balance = value; }
+            internal set { Balance = value; }
         }
         public accountType accType
         {

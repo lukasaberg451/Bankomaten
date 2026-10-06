@@ -10,73 +10,79 @@ namespace Bankomaten.Models
 {
     internal class Bank
     {
-        private static Account _account;
 
-        public Bank(Account account) { 
-        
-            _account = account;
-        }
-        public void CheckAmount(User user)
+
+        public static void CheckAmount(List<Account> accounts  )
         {
-            var user = new User();
             
-            try
-            {
-
                 Console.WriteLine("\n --- Saldo -----");
-                Console.Write("Vilket konto vill du kontrollera:");
-
-                int accountnumber = int.Parse(Console.ReadLine());
-
-                Account? account = user.GetAccount(accountnumber);
-
-                if (account != null)
+        
+                if (accounts.Count == 0)
                 {
-                    Console.WriteLine($"Saldo på kontot: {account.balance}");
+                    Console.WriteLine("Du har inga konton.");
+                    return;
                 }
-                else
-                {
-                    Console.WriteLine("Account not found!");
-                }
-            }
 
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid account number: Inmatningen var inte ett giltigt heltal");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ett oväntat fel uppstod: {ex.Message}");
-            }
+                Console.WriteLine("Dina konton:");
+                foreach (var acc in accounts)
+                {
+                    Console.WriteLine( $"KontoId: {acc.accountId} Konto: {acc.name}, Saldo: {acc.balance:C}, Typ: {acc.accType}");
+                }
+          
         }
 
-        public static void WithdrawAmount(decimal withdrawamount, ref decimal balance)
+
+        public static void WithdrawAmount(decimal amount, Account account)
         {
-             
-                if (balance <= withdrawamount)
-                {
-                    Console.WriteLine("Det finns för lite på kontot");
-                }
-                else
-                {
-                    decimal total = balance - withdrawamount;
-                    balance = total;
-                    Console.WriteLine($"Det nya saldot på kontot: {balance}");
 
-                }
+            if (amount <= 0)
+            {
+                Console.WriteLine("Beloppet måste vara större än noll.");
+                return;
+            }
+
+            if (amount > account.balance)
+            {
+                Console.WriteLine("Uttag misslyckades: Det finns inte tillräckligt med pengar på kontot.");
+                return;
+            }
+
+            account.balance -= amount;
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {account.balance:C}");
+            
         }
 
-        public static void Deposit(decimal amount)
+
+        public static void Deposit(decimal amount, Account account)
         {
             if (amount <= 0)
             {
-                Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller så är det noll");
+                Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller noll");
             }
             else
             {
-                _account.balance += amount;
-                Console.WriteLine($"Det nya saldot på kontot: {_account.balance}");
+                account.balance += amount;
+                Console.WriteLine($"Det nya saldot på kontot: {account.balance}");
             }
+        }
+
+        public static void Transfer(decimal amount,Account accountIn, Account account)
+        {
+            if (amount <= 0)
+            {
+                Console.WriteLine("Beloppet måste vara större än noll.");
+                return;
+            }
+
+            if (amount > accountIn.balance)
+            {
+                Console.WriteLine("Uttag misslyckades: Det finns inte tillräckligt med pengar på kontot.");
+                return;
+            }
+
+            accountIn.balance -= amount;
+            account.balance += amount;
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {account.accType} {account.balance:C} kr och nytt saldo {accountIn.accType} {accountIn.balance:C} kr");
         }
     }
 
