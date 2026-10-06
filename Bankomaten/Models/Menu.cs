@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Bankomaten.Models
@@ -34,11 +35,12 @@ namespace Bankomaten.Models
             new Account(5, "Kalle Lönekonto", 2000, Account.accountType.Lönekonto),
             new Account(5, "Kalle Depåkonto", 3000, Account.accountType.Depåkonto)
         };
+        private static string? accountname;
 
         // Bank meny
         public static void BankMenu(User user)
         {
-            List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
+            List<Account> currentUserAccounts = AllAccounts.Where(a => a.OwnerId == user.UserId).ToList();
 
             int logOut = 0;
 
@@ -72,8 +74,11 @@ namespace Bankomaten.Models
 
                     // Ta ut pengar
                     case 4:
-                        Console.WriteLine("TODO");
-                        //Bank.WithdrawAmount(user, currentUserAccounts);
+                        Bank.CheckAmount(user, AllAccounts);
+                        Console.WriteLine("Hur mycket skall du ta ut?");
+                        decimal amount = Convert.ToDecimal(Console.ReadLine());
+                        accountCode = Console.ReadLine();
+                        Bank.WithdrawAmount(accountCode, amount);
                         break;
 
                     // Logga ut
@@ -86,7 +91,7 @@ namespace Bankomaten.Models
                         Console.WriteLine("Ogiltigt val");
                         break;
                 }
-            }
+             }
         }
 
         // Method för att skriva ut en array med meny alternativ
