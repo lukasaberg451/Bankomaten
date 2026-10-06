@@ -40,7 +40,7 @@ namespace Bankomaten.Models
         // Bank meny
         public static void BankMenu(User user)
         {
-            List<Account> currentUserAccounts = AllAccounts.Where(a => a.OwnerId == user.UserId).ToList();
+            List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
             int logOut = 0;
 
@@ -58,28 +58,94 @@ namespace Bankomaten.Models
                 {
                     // Se konton och saldo
                     case 1:
-                        Console.WriteLine("TODO");
-                        //Bank.CheckAmount(user, currentUserAccounts);
+                        Bank.CheckAmount(currentUserAccounts);
                         break;
 
                     // Överföring
                     case 2:
-                        Console.WriteLine("TODO");
+                        Bank.CheckAmount(currentUserAccounts);
+                        Console.WriteLine("Vilket konto skall du sätta in på? ");
+                        if (!int.TryParse(Console.ReadLine(), out int outAcc))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        Console.WriteLine("Vilket konto skall du ta ut från? ");
+                        if (!int.TryParse(Console.ReadLine(), out int inAcc))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        Console.WriteLine("Hur mycket skal du föra över? ");
+                        if (!decimal.TryParse(Console.ReadLine(), out decimal amountTransfer))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        var outChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == outAcc);
+                        var innChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == inAcc);
+                        if (innChosenAccount == null || outChosenAccount == null)
+                        {
+                            Console.WriteLine("Kontot hittades inte, försök igen.");
+                            continue;
+                        }
+
+                        Bank.Transfer(amountTransfer,innChosenAccount, outChosenAccount);
                         break;
+                        
 
                     // Sätta in pengar
                     case 3:
-                        Console.WriteLine("TODO");
-                        break;
+                        Bank.CheckAmount(currentUserAccounts);
+                        Console.WriteLine("Vilket konto skall du sätta in på? ");
+                        if (!int.TryParse(Console.ReadLine(), out int inAccId))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        Console.WriteLine("Hur mycket skall du sätta in? ");
+                        if (!decimal.TryParse(Console.ReadLine(), out decimal inAmount))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
 
+                        var inChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == inAccId);
+                        if (inChosenAccount == null)
+                        {
+                            Console.WriteLine("Kontot hittades inte, försök igen.");
+                            continue;
+                        }
+
+                        Bank.Deposit(inAmount, inChosenAccount);
+                        break;
                     // Ta ut pengar
                     case 4:
-                        Bank.CheckAmount(user, AllAccounts);
-                        Console.WriteLine("Hur mycket skall du ta ut?");
-                        decimal amount = Convert.ToDecimal(Console.ReadLine());
-                        accountCode = Console.ReadLine();
-                        Bank.WithdrawAmount(accountCode, amount);
+                        Bank.CheckAmount(currentUserAccounts);
+                        Console.WriteLine("Vilket konto skall du ta ut från ");
+                        if (!int.TryParse(Console.ReadLine(), out int accId))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        Console.WriteLine("Hur mycket skall du ta ut? ");
+                        if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
+                        {
+                            Console.WriteLine("Ogiltig inmatning, försök igen");
+                            continue;
+                        }
+                        
+                        var chosenAccount  = currentUserAccounts.FirstOrDefault(a => a.accountId  == accId);
+                        if (chosenAccount == null)
+                        {
+                            Console.WriteLine("Kontot hittades inte, försök igen.");
+                            continue;
+                        }
+                        
+
+                        Bank.WithdrawAmount(amount, chosenAccount);
                         break;
+                        
 
                     // Logga ut
                     case 5:
