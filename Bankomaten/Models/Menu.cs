@@ -6,11 +6,43 @@ namespace Bankomaten.Models
 {
     internal class Menu
     {
+        // Lista med Bankkonton
+        private static List<Account> AllAccounts = new List<Account>()
+        {
+            // Ammar konton
+            new Account(1, "Ammar Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(1, "Ammar Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(1, "Ammar Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Mattias konton
+            new Account(2, "Mattias Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(2, "Mattias Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(2, "Mattias Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Lukas konton
+            new Account(3, "Lukas Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(3, "Lukas Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(3, "Lukas Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Marco konton
+            new Account(4, "Marco Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(4, "Marco Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(4, "Marco Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Kalle konton
+            new Account(5, "Kalle Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(5, "Kalle Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(5, "Kalle Depåkonto", 3000, Account.accountType.Depåkonto)
+        };
+
+        // Bank meny
         public static void BankMenu(User user)
         {
-            int wantsToLogOut = 0;
+            List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
-            while (wantsToLogOut != 4)
+            int logOut = 0;
+
+            while (logOut != 5)
             {
                 ShowMenuOptions();
 
@@ -22,27 +54,32 @@ namespace Bankomaten.Models
 
                 switch (userSelection)
                 {
-                    // Se konto och saldo
+                    // Se konton och saldo
                     case 1:
-                        //CheckAmount()
-                        Console.WriteLine("TODO, konto och saldo");
+                        Console.WriteLine("TODO");
+                        //Bank.CheckAmount(user, currentUserAccounts);
                         break;
 
                     // Överföring
                     case 2:
-                        Console.WriteLine("TODO, överföring");
+                        Console.WriteLine("TODO");
+                        break;
+
+                    // Sätta in pengar
+                    case 3:
+                        Console.WriteLine("TODO");
                         break;
 
                     // Ta ut pengar
-                    case 3:
-                        //WithdrawAmount()
-                        Console.WriteLine("TODO, ta ut pengar");
+                    case 4:
+                        Console.WriteLine("TODO");
+                        //Bank.WithdrawAmount(user, currentUserAccounts);
                         break;
 
                     // Logga ut
-                    case 4:
+                    case 5:
                         Console.WriteLine("Du är utloggad");
-                        wantsToLogOut = 4;
+                        logOut = 5;
                         break;
 
                     default:
@@ -52,10 +89,11 @@ namespace Bankomaten.Models
             }
         }
 
+        // Method för att skriva ut en array med meny alternativ
         public static void ShowMenuOptions()
         {
-            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Ta ut pengar", "4. Logga ut" };
-            
+            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Logga ut" };
+
             foreach (string option in options)
             {
                 Console.WriteLine(option);

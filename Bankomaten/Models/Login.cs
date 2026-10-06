@@ -6,15 +6,19 @@ namespace Bankomaten.Models
 {
     internal class Login
     {
+        // Lista med användare
+        private static List<User> UserList = new List<User>
+        {
+            new User(1, "Ammar", "1234"),
+            new User(2, "Mattias", "1234"),
+            new User(3, "Lukas", "1234"),
+            new User(4, "Marco", "1234"),
+            new User(5, "Kalle", "1234")
+        };
+
+        // Method för att ta input från användaren och validera mot lista med användare
         public static User AuthenticateUser()
         {
-            // For testing pending the real list
-            User testUser = new("lukas", "1234");
-            List<User> users = new List<User>();
-            users.Add(testUser);
-            
-
-
             bool isAuthenticated = false;
             int failedAttempts = 0;
             int allowedAttempts = 3;
@@ -28,7 +32,7 @@ namespace Bankomaten.Models
                 Console.Write("Pinkod: ");
                 string pin = Console.ReadLine();
 
-                user = users.FirstOrDefault(u => u.UserName == username && u.PassWord == pin);
+                user = FindUser(username, pin);
 
                 if (user != null)
                 {
@@ -42,13 +46,20 @@ namespace Bankomaten.Models
                 }
             }
             while (failedAttempts < 3 && isAuthenticated != true);
-         
+
             if (failedAttempts == 3)
             {
                 Console.WriteLine("Du har nått max antal försök");
             }
 
-            return user;
+            return user!;
+        }
+
+        // Method för att hitta användare i listan
+        public static User FindUser(string username, string pin)
+        {
+            User user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin)!;
+            return user!;
         }
     }
 }

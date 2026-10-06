@@ -3,7 +3,8 @@
     internal class Account
     {
         //Fields
-        static int Id = 0;
+        private static int Counter = 0;
+        private int OwnerId;
         private int AccountNumber;
         private string AccountName;
         //private User User;
@@ -19,9 +20,10 @@
         private accountType AccountType;
 
         // Constructor
-        public Account(string accountname, decimal balance, accountType accounttype)
+        public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
         {
-            Id = GenerateId();
+            accountId = ++Counter;
+            OwnerId = ownerid;
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
@@ -30,11 +32,27 @@
             AccountType = accounttype;
         }
 
-        // Properties
-        public int id
+        // Constructor overload, used for loading accounts from StreamReader
+        public Account(int accountid, int ownerid, int accountnumber, string accountname, decimal balance, accountType accounttype)
         {
-            get { return Id; }
+            accountId = accountid;
+            OwnerId = ownerid;
+            AccountNumber = accountnumber;
+            AccountName = accountname;
+            Balance = balance;
+            AccountType = accounttype;
+        }
+
+        // Properties
+        public int accountId
+        {
+            get;
             //Inget set - användaren får inte ändra kontots Id
+        }
+        public int ownerId
+        {
+            get { return OwnerId; }
+            set { OwnerId = value; }
         }
         public int accountNumber
         {
@@ -55,21 +73,6 @@
         {
             get { return AccountType; }
             set { AccountType = value; }
-        }
-
-        // Metod för att generera ett nytt nummer till konto Id
-        static int GenerateId()
-        {
-            return Id++;
-        }
-
-        // Metod för att skapa ett nytt konto
-        public Account CreateAccount(string accountname, decimal balance, accountType accounttype)
-        {
-            Account account = new Account(accountname, balance, accounttype);
-            Console.WriteLine($"Nytt {account.AccountType} har skapats med konto nummer: {account.accountNumber}.");
-            return account;
-        }
-
+        }      
     }
 }
