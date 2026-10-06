@@ -13,8 +13,10 @@ namespace Bankomaten
                 Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
                 Console.ResetColor();
 
+                // Login
                 User user = Login.AuthenticateUser();
 
+                // Om användaren finns skicka vidare till menyn, annars lockout
                 if (user != null)
                 {
                     Menu.BankMenu(user);

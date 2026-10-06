@@ -9,14 +9,14 @@ namespace Bankomaten.Models
         // Lista med användare
         private static List<User> UserList = new List<User>
         {
-            new User("Ammar", "1234", 1),
-            new User("Mattias", "1234", 2),
-            new User("Lukas", "1234", 3),
-            new User("Marco", "1234", 4),
-            new User("Kalle", "1234", 5)
+            new User(1, "Ammar", "1234"),
+            new User(2, "Mattias", "1234"),
+            new User(3, "Lukas", "1234"),
+            new User(4, "Marco", "1234"),
+            new User(5, "Kalle", "1234")
         };
 
-        // 
+        // Method för att ta input från användaren och validera mot lista med användare
         public static User AuthenticateUser()
         {
             bool isAuthenticated = false;
@@ -52,14 +52,14 @@ namespace Bankomaten.Models
                 Console.WriteLine("Du har nått max antal försök");
             }
 
-            return user;
+            return user!;
         }
 
         // Method för att hitta användare i listan
-        public static User FindUser(string username, string password)
+        public static User FindUser(string username, string pin)
         {
-            User user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == password);
-            return user;
+            User user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin)!;
+            return user!;
         }
     }
 }

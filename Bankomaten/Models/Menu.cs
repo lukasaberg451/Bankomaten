@@ -7,15 +7,37 @@ namespace Bankomaten.Models
 {
     internal class Menu
     {
+        // Lista med Bankkonton
         private static List<Account> AllAccounts = new List<Account>()
         {
-            new Account(3, "Lukas konto 1", 1000, Account.accountType.Sparkonto),
-            new Account(3, "Lukas konto 2", 2000, Account.accountType.Lönekonto),
-            new Account(3, "Lukas konto 3", 3000, Account.accountType.Depåkonto),
-            new Account(4, "Marco konto 1", 100000, Account.accountType.Sparkonto)
+            // Ammar konton
+            new Account(1, "Ammar Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(1, "Ammar Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(1, "Ammar Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Mattias konton
+            new Account(2, "Mattias Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(2, "Mattias Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(2, "Mattias Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Lukas konton
+            new Account(3, "Lukas Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(3, "Lukas Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(3, "Lukas Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Marco konton
+            new Account(4, "Marco Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(4, "Marco Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(4, "Marco Depåkonto", 3000, Account.accountType.Depåkonto),
+
+            // Kalle konton
+            new Account(5, "Kalle Sparkonto", 1000, Account.accountType.Sparkonto),
+            new Account(5, "Kalle Lönekonto", 2000, Account.accountType.Lönekonto),
+            new Account(5, "Kalle Depåkonto", 3000, Account.accountType.Depåkonto)
         };
         private static string? accountname;
 
+        // Bank meny
         public static void BankMenu(User user)
         {
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.OwnerId == user.UserId).ToList();
@@ -36,8 +58,8 @@ namespace Bankomaten.Models
                 {
                     // Se konton och saldo
                     case 1:
-                        user.ShowUserInfo();
-                        Bank.CheckAmount(user);
+                        Console.WriteLine("TODO");
+                        //Bank.CheckAmount(user, currentUserAccounts);
                         break;
 
                     // Överföring
@@ -72,9 +94,10 @@ namespace Bankomaten.Models
              }
         }
 
+        // Method för att skriva ut en array med meny alternativ
         public static void ShowMenuOptions()
         {
-            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätta in pengar" , "4.Ta ut pengar", "5. Logga ut" };
+            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Logga ut" };
 
             foreach (string option in options)
             {

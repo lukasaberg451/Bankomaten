@@ -21,37 +21,21 @@ namespace Bankomaten.Models
         //lagrar ID för använadre
         public int UserId { get; set; }
 
-        //Lista på användarens konton
-        public List<Account> Accounts { get; set; }
-
-
-        public User(string userName, string passWord, int userId)
+        public User(int userId, string userName, string passWord)
         {
             UserName = userName;
             PassWord = passWord;
             UserId = userId;
-            Accounts = new List<Account>();
-        }
-
-        public User()
-        {
         }
 
         public void ShowUserInfo()
         {
             Console.WriteLine($"Namn : {UserName} | AnvändarID : {UserId} ");
 
-            foreach (Account account in Accounts)
-            {
-                Console.WriteLine($" - Konto: {account.name} | Saldo: {account.balance}");
-            }
-
-
+            //foreach (Account account in Accounts)
+            //{
+            //    Console.WriteLine($" - Konto: {account.name} | Saldo: {account.balance}");
+            //}
         }
-
-        
-
-        
-
     }
 }
