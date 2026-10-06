@@ -1,45 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
 {
     internal class Menu
     {
         // Lista med Bankkonton
-        private static List<Account> AllAccounts = new List<Account>()
+
+        private static List<Account> InitializeAccounts()
         {
-            // Ammar konton
-            new Account(1, "Ammar Sparkonto", 1000, Account.accountType.Sparkonto),
-            new Account(1, "Ammar Lönekonto", 2000, Account.accountType.Lönekonto),
-            new Account(1, "Ammar Depåkonto", 3000, Account.accountType.Depåkonto),
+            string path = "accounts.txt";
+            //Kolla om Accounts filen finns, om ej, skapa den med standard kontona
+            if (!File.Exists(path))
+            {
+                Account AccountFile = new Account();
+                List<Account> AllAccounts = AccountFile.AddAccountData();
+                using StreamWriter userfile = new StreamWriter(path);
+                foreach (Account acc in AllAccounts)
+                {
+                    userfile.WriteLine($"{acc.accountId};{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
+                }
+                return AllAccounts;
+            }
+            //Om Accounts filen finns, läs kontona från filen och använd datan därifrån
+            else
+            {
+                List<Account> AllAccounts = new List<Account>();
+                using StreamReader reader = new StreamReader(path);
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(';');
+                    AllAccounts.Add(new Account(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]), parts[3], decimal.Parse(parts[4]), (Enum.Parse<accountType>(parts[5]))));
+                }
+                return AllAccounts;
+            }
 
-            // Mattias konton
-            new Account(2, "Mattias Sparkonto", 1000, Account.accountType.Sparkonto),
-            new Account(2, "Mattias Lönekonto", 2000, Account.accountType.Lönekonto),
-            new Account(2, "Mattias Depåkonto", 3000, Account.accountType.Depåkonto),
-
-            // Lukas konton
-            new Account(3, "Lukas Sparkonto", 1000, Account.accountType.Sparkonto),
-            new Account(3, "Lukas Lönekonto", 2000, Account.accountType.Lönekonto),
-            new Account(3, "Lukas Depåkonto", 3000, Account.accountType.Depåkonto),
-
-            // Marco konton
-            new Account(4, "Marco Sparkonto", 1000, Account.accountType.Sparkonto),
-            new Account(4, "Marco Lönekonto", 2000, Account.accountType.Lönekonto),
-            new Account(4, "Marco Depåkonto", 3000, Account.accountType.Depåkonto),
-
-            // Kalle konton
-            new Account(5, "Kalle Sparkonto", 1000, Account.accountType.Sparkonto),
-            new Account(5, "Kalle Lönekonto", 2000, Account.accountType.Lönekonto),
-            new Account(5, "Kalle Depåkonto", 3000, Account.accountType.Depåkonto)
-        };
-        private static string? accountname;
+        }
 
         // Bank meny
         public static void BankMenu(User user)
         {
+            List<Account> AllAccounts = InitializeAccounts();
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
             int logOut = 0;
@@ -90,9 +91,9 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Bank.Transfer(amountTransfer,innChosenAccount, outChosenAccount);
+                        Bank.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
                         break;
-                        
+
 
                     // Sätta in pengar
                     case 3:
@@ -134,30 +135,39 @@ namespace Bankomaten.Models
                             Console.WriteLine("Ogiltig inmatning, försök igen");
                             continue;
                         }
-                        
-                        var chosenAccount  = currentUserAccounts.FirstOrDefault(a => a.accountId  == accId);
+
+                        var chosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == accId);
                         if (chosenAccount == null)
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-                        
+
 
                         Bank.WithdrawAmount(amount, chosenAccount);
                         break;
-                        
+
 
                     // Logga ut
                     case 5:
-                        Console.WriteLine("Du är utloggad");
-                        logOut = 5;
-                        break;
+                        {
+                            Console.WriteLine("Du är utloggad");
+                            logOut = 5;
+                            string path = "accounts.txt";
+                            using StreamWriter userfile = new StreamWriter(path);
+                            foreach (Account acc in AllAccounts)
+                            {
+                                userfile.WriteLine($"{acc.accountId};{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
+                            }
+                            break;
+                        }
+
 
                     default:
                         Console.WriteLine("Ogiltigt val");
                         break;
                 }
-             }
+            }
         }
 
         // Method för att skriva ut en array med meny alternativ
