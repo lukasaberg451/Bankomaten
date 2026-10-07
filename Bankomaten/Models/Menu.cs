@@ -45,6 +45,12 @@ namespace Bankomaten.Models
             List<Account> AllAccounts = InitializeAccounts(); //Här kommer datan in, varesig den kommer från lokal fil eller Account klassen
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
+            Dictionary<int, Account> accountsDict = new();
+            for (int i = 0; i < currentUserAccounts.Count; i++)
+            {
+                accountsDict.Add(i, currentUserAccounts[i]);
+            }
+
             int logOut = 0;
 
             while (logOut != 5)
@@ -61,12 +67,12 @@ namespace Bankomaten.Models
                 {
                     // Se konton och saldo
                     case 1:
-                        Utilities.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(accountsDict);
                         break;
 
                     // Överföring mellan två konton
                     case 2:
-                        Utilities.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
                         if (!int.TryParse(Console.ReadLine(), out int outAcc))
                         {
@@ -85,8 +91,8 @@ namespace Bankomaten.Models
                             Console.WriteLine("Ogiltig inmatning, försök igen");
                             continue;
                         }
-                        var outChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == outAcc);
-                        var innChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == inAcc);
+                        var outChosenAccount = accountsDict[outAcc];
+                        var innChosenAccount = accountsDict[inAcc];
                         if (innChosenAccount == null || outChosenAccount == null)
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
@@ -98,7 +104,7 @@ namespace Bankomaten.Models
 
                     // Sätta in pengar
                     case 3:
-                        Utilities.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
                         if (!int.TryParse(Console.ReadLine(), out int inAccId))
                         {
@@ -124,7 +130,7 @@ namespace Bankomaten.Models
 
                     // Ta ut pengar
                     case 4:
-                        Utilities.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du ta ut från ");
                         if (!int.TryParse(Console.ReadLine(), out int accId))
                         {
