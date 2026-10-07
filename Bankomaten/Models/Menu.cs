@@ -54,19 +54,19 @@ namespace Bankomaten.Models
                 if (!int.TryParse(Console.ReadLine(), out int userSelection))
                 {
                     Console.WriteLine("Ogiltig inmatning, försök igen");
-                    break;
+                    continue;
                 }
 
                 switch (userSelection)
                 {
                     // Se konton och saldo
                     case 1:
-                        Bank.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(currentUserAccounts);
                         break;
 
-                    // Överföring
+                    // Överföring mellan två konton
                     case 2:
-                        Bank.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(currentUserAccounts);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
                         if (!int.TryParse(Console.ReadLine(), out int outAcc))
                         {
@@ -93,12 +93,12 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Bank.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
+                        Utilities.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
                         break;
 
                     // Sätta in pengar
                     case 3:
-                        Bank.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(currentUserAccounts);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
                         if (!int.TryParse(Console.ReadLine(), out int inAccId))
                         {
@@ -119,12 +119,12 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Bank.Deposit(inAmount, inChosenAccount);
+                        Utilities.Deposit(inAmount, inChosenAccount);
                         break;
 
                     // Ta ut pengar
                     case 4:
-                        Bank.CheckAmount(currentUserAccounts);
+                        Utilities.CheckAmount(currentUserAccounts);
                         Console.WriteLine("Vilket konto skall du ta ut från ");
                         if (!int.TryParse(Console.ReadLine(), out int accId))
                         {
@@ -145,7 +145,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Bank.WithdrawAmount(amount, chosenAccount);
+                        Utilities.WithdrawAmount(amount, chosenAccount);
                         break;
 
                     // Logga ut
@@ -153,6 +153,7 @@ namespace Bankomaten.Models
                         {
                             Console.WriteLine("Du är utloggad");
                             logOut = 5;
+
                             //När användaren loggar ut, skriv alla kontona till filen så att de sparas
                             string path = "accounts.txt";
                             using StreamWriter userfile = new StreamWriter(path);
@@ -170,7 +171,7 @@ namespace Bankomaten.Models
             }
         }
 
-        // Method för att skriva ut en array med meny alternativ
+        // Metod för att skriva ut en array med meny alternativ
         public static void ShowMenuOptions()
         {
             string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Logga ut" };
