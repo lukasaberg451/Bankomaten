@@ -155,6 +155,7 @@ namespace Bankomaten.Models
                         {
                             Console.WriteLine("Du är utloggad");
                             logOut = 5;
+                            //När användaren loggar ut, skriv alla kontona till filen så att de sparas
                             string path = "accounts.txt";
                             using StreamWriter userfile = new StreamWriter(path);
                             foreach (Account acc in AllAccounts)
