@@ -96,7 +96,6 @@ namespace Bankomaten.Models
                         Bank.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
                         break;
 
-
                     // Sätta in pengar
                     case 3:
                         Bank.CheckAmount(currentUserAccounts);
@@ -122,6 +121,7 @@ namespace Bankomaten.Models
 
                         Bank.Deposit(inAmount, inChosenAccount);
                         break;
+
                     // Ta ut pengar
                     case 4:
                         Bank.CheckAmount(currentUserAccounts);
@@ -145,10 +145,8 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-
                         Bank.WithdrawAmount(amount, chosenAccount);
                         break;
-
 
                     // Logga ut
                     case 5:
@@ -164,7 +162,6 @@ namespace Bankomaten.Models
                             }
                             break;
                         }
-
 
                     default:
                         Console.WriteLine("Ogiltigt val");
