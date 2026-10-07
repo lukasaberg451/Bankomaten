@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Bankomaten.Models
 {
-    internal class Bank
+    internal class Utilities
     {
 
         /// <summary>

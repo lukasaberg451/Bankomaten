@@ -17,7 +17,6 @@
             Depåkonto
         }
         private accountType AccountType;
-        internal readonly object UserId;
 
         // Constructors
         public Account()
