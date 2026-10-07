@@ -21,7 +21,11 @@
         private accountType AccountType;
         internal readonly object UserId;
 
-        // Constructor
+        // Constructors
+        public Account()
+        {
+            //Tom constructor för att kalla Metoder
+        }
         public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
         {
             accountId = ++Counter;
@@ -75,6 +79,37 @@
         {
             get { return AccountType; }
             set { AccountType = value; }
-        }      
+        }
+        //Metod för att initiera data
+        public List<Account> AddAccountData()
+        {
+            List<Account> AllAccounts = new List<Account> { 
+            // Ammar konton
+            new Account(1, "Ammar Sparkonto", 1000, accountType.Sparkonto),
+            new Account(1, "Ammar Lönekonto", 2000, accountType.Lönekonto),
+            new Account(1, "Ammar Depåkonto", 3000, accountType.Depåkonto),
+
+            // Mattias konton
+            new Account(2, "Mattias Sparkonto", 1000, accountType.Sparkonto),
+            new Account(2, "Mattias Lönekonto", 2000, accountType.Lönekonto),
+            new Account(2, "Mattias Depåkonto", 3000, accountType.Depåkonto),
+
+            // Lukas konton
+            new Account(3, "Lukas Sparkonto", 1000, accountType.Sparkonto),
+            new Account(3, "Lukas Lönekonto", 2000, accountType.Lönekonto),
+            new Account(3, "Lukas Depåkonto", 3000, accountType.Depåkonto),
+
+            // Marco konton
+            new Account(4, "Marco Sparkonto", 1000, accountType.Sparkonto),
+            new Account(4, "Marco Lönekonto", 2000, accountType.Lönekonto),
+            new Account(4, "Marco Depåkonto", 3000, accountType.Depåkonto),
+
+            // Kalle konton
+            new Account(5, "Kalle Sparkonto", 1000, accountType.Sparkonto),
+            new Account(5, "Kalle Lönekonto", 2000, accountType.Lönekonto),
+            new Account(5, "Kalle Depåkonto", 3000, accountType.Depåkonto)
+            };
+            return AllAccounts;
+        }
     }
 }
