@@ -6,14 +6,16 @@ namespace Bankomaten.Models
     {
         // Lista med Bankkonton
 
+        // Metod som initialiserar data, antingen befintlig data från fil, eller standardvärden från Account, och returnerar en lista
         private static List<Account> InitializeAccounts()
         {
             string path = "accounts.txt";
-            //Kolla om Accounts filen finns, om ej, skapa den med standard kontona
+            //Kolla om accounts.txt filen finns, om ej, skapa den med standardvärden från Account
             if (!File.Exists(path))
             {
                 Account AccountFile = new Account();
-                List<Account> AllAccounts = AccountFile.AddAccountData();
+                List<Account> AllAccounts = AccountFile.AddAccountData(); //Här kommer standardvärden in från Account
+
                 using StreamWriter userfile = new StreamWriter(path);
                 foreach (Account acc in AllAccounts)
                 {
@@ -21,7 +23,7 @@ namespace Bankomaten.Models
                 }
                 return AllAccounts;
             }
-            //Om Accounts filen finns, läs kontona från filen och använd datan därifrån
+            //Om accounts.txt filen finns, läs kontona från filen och lägg datan därifrån i en list
             else
             {
                 List<Account> AllAccounts = new List<Account>();
@@ -40,7 +42,7 @@ namespace Bankomaten.Models
         // Bank meny
         public static void BankMenu(User user)
         {
-            List<Account> AllAccounts = InitializeAccounts();
+            List<Account> AllAccounts = InitializeAccounts(); //Här kommer datan in, varesig den kommer från lokal fil eller Account klassen
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
             int logOut = 0;
