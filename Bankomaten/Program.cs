@@ -10,21 +10,16 @@ namespace Bankomaten
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
+                Console.WriteLine("\n--- Välkommen till Sharp Legend Bank ---");
                 Console.ResetColor();
 
-                // Login
+                // Kontrollera om användaren finns
                 User user = Login.AuthenticateUser();
 
-                // Om användaren finns skicka vidare till menyn, annars lockout
+                // Om användaren finns, öppna menyn
                 if (user != null)
                 {
                     Menu.BankMenu(user);
-                }
-                else
-                {
-                    Console.WriteLine("Start om systemet för att försöka igen");
-                    break;
                 }
             }
         }
