@@ -15,22 +15,22 @@ namespace Bankomaten.Models
             new User(4, "Marco", "1234"),
             new User(5, "Kalle", "1234")
         };
-
-        // Method för att ta input från användaren och validera mot lista med användare
-        public static User AuthenticateUser()
+        
+        // Metod för att ta input från användaren och validera mot lista med användare  
+        public static User? AuthenticateUser()
         {
-            bool isAuthenticated = false;
+            bool isAuthenticated;
             int failedAttempts = 0;
             int allowedAttempts = 3;
-            User user;
+            User? user = null;
 
             do
             {
                 Console.Write("Användarnamn: ");
-                string username = Console.ReadLine();
+                string? username = Console.ReadLine();
 
                 Console.Write("Pinkod: ");
-                string pin = Console.ReadLine();
+                string? pin = Console.ReadLine();
 
                 user = FindUser(username, pin);
 
@@ -45,21 +45,42 @@ namespace Bankomaten.Models
                     Console.WriteLine($"Fel användarnamn eller lösenord, du har {allowedAttempts - failedAttempts} försök kvar");
                 }
             }
-            while (failedAttempts < 3 && isAuthenticated != true);
+            while (failedAttempts < allowedAttempts && isAuthenticated != true);
 
-            if (failedAttempts == 3)
+            // Lockout om användaren har anget felaktiga uppgifter 3 gånger
+            if (failedAttempts == allowedAttempts)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Du har nått max antal försök");
+
+                LockoutClock();
+                Console.ResetColor();
             }
 
-            return user!;
+            return user;
         }
 
-        // Method för att hitta användare i listan
-        public static User FindUser(string username, string pin)
+         // Metod för att hitta användare i listan av användare
+        public static User? FindUser(string? username, string? pin)
         {
-            User user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin)!;
-            return user!;
+            User? user = UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin);
+            return user;
+        }
+
+        // Metod för att visa en klocka på 3 minuter om användaren skriver fel uppgifter 3 gånger
+        public static void LockoutClock()
+        {
+            DateTime lockoutEnd = DateTime.Now.AddMinutes(3);
+            
+            Console.WriteLine("Du kan försöka logga in igen om 3 minuter");
+            
+            while (lockoutEnd > DateTime.Now)
+            {
+                TimeSpan lockoutTimeRemaining = lockoutEnd - DateTime.Now;
+                
+                Console.Write($"\r{lockoutTimeRemaining.Minutes}:{lockoutTimeRemaining.Seconds:D2}");
+                Thread.Sleep(1000);
+            }
         }
     }
 }

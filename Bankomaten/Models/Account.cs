@@ -7,11 +7,9 @@
         private int OwnerId;
         private int AccountNumber;
         private string AccountName;
-        //private User User;
         private decimal Balance;
-        
 
-        //Account Type - testar enum för skojs
+        //Account Type - Enumeration - en data type som gör det enkelt för oss att utöka kontotyper, om det skulle behövas
         public enum accountType
         {
             Sparkonto,
@@ -19,13 +17,14 @@
             Depåkonto
         }
         private accountType AccountType;
-        internal readonly object UserId;
 
         // Constructors
         public Account()
         {
-            //Tom constructor för att kalla Metoder
+            //Tom constructor som används till att kalla på metoden AddAccountData() utifrån
         }
+
+        // Standard constructor för att skapa konton med en räknare och slumpmässigt kontonummer
         public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
         {
             accountId = ++Counter;
@@ -33,12 +32,11 @@
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
             AccountName = accountname;
-            //User = user;
             Balance = balance;
             AccountType = accounttype;
         }
 
-        // Constructor overload, used for loading accounts from StreamReader
+        // Constructor overload som används till när vi läser befintliga konton från filen
         public Account(int accountid, int ownerid, int accountnumber, string accountname, decimal balance, accountType accounttype)
         {
             accountId = accountid;
@@ -80,7 +78,8 @@
             get { return AccountType; }
             set { AccountType = value; }
         }
-        //Metod för att initiera data
+
+        //Metod som returnerar en list, för att initiera data med standardvärden, om fil inte existerar
         public List<Account> AddAccountData()
         {
             List<Account> AllAccounts = new List<Account> { 
