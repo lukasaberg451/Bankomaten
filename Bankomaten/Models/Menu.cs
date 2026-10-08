@@ -57,11 +57,7 @@ namespace Bankomaten.Models
             {
                 ShowMenuOptions();
 
-                if (!int.TryParse(Console.ReadLine(), out int userSelection))
-                {
-                    Console.WriteLine("Ogiltig inmatning, försök igen");
-                    continue;
-                }
+                if (!Utilities.IntParse(out int userSelection, "Ogiltigt val")) continue;
 
                 switch (userSelection)
                 {
@@ -73,24 +69,16 @@ namespace Bankomaten.Models
                     // Överföring mellan två konton
                     case 2:
                         Utilities.CheckAmount(accountsDict);
+                        
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
-                        if (!int.TryParse(Console.ReadLine(), out int outAcc))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.IntParse(out int outAcc)) continue;
+
                         Console.WriteLine("Vilket konto skall du ta ut från? ");
-                        if (!int.TryParse(Console.ReadLine(), out int inAcc))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.IntParse(out int inAcc)) continue;
+
                         Console.WriteLine("Hur mycket skal du föra över? ");
-                        if (!decimal.TryParse(Console.ReadLine(), out decimal amountTransfer))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.DecimalParse(out decimal amountTransfer)) continue;
+
                         var outChosenAccount = accountsDict[outAcc];
                         var innChosenAccount = accountsDict[inAcc];
                         if (innChosenAccount == null || outChosenAccount == null)
@@ -106,17 +94,10 @@ namespace Bankomaten.Models
                     case 3:
                         Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
-                        if (!int.TryParse(Console.ReadLine(), out int inAccId))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.IntParse(out int inAccId)) continue;
+
                         Console.WriteLine("Hur mycket skall du sätta in? ");
-                        if (!decimal.TryParse(Console.ReadLine(), out decimal inAmount))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.DecimalParse(out decimal inAmount)) continue;
 
                         var inChosenAccount = accountsDict[inAccId];
                         if (inChosenAccount == null)
@@ -132,18 +113,11 @@ namespace Bankomaten.Models
                     case 4:
                         Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du ta ut från ");
-                        if (!int.TryParse(Console.ReadLine(), out int accId))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
+                        if (!Utilities.IntParse(out int accId)) continue;
+
                         Console.WriteLine("Hur mycket skall du ta ut? ");
-                        if (!decimal.TryParse(Console.ReadLine(), out decimal amount))
-                        {
-                            Console.WriteLine("Ogiltig inmatning, försök igen");
-                            continue;
-                        }
-                        
+                        if (!Utilities.DecimalParse(out decimal amount)) continue;
+
                         var chosenAccount = accountsDict[accId];
                         if (chosenAccount == null)
                         {
