@@ -48,7 +48,7 @@ namespace Bankomaten.Models
             Dictionary<int, Account> accountsDict = new();
             for (int i = 0; i < currentUserAccounts.Count; i++)
             {
-                accountsDict.Add(i, currentUserAccounts[i]);
+                accountsDict.Add(i+1, currentUserAccounts[i]);
             }
 
             int logOut = 0;
@@ -118,7 +118,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        var inChosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == inAccId);
+                        var inChosenAccount = accountsDict[inAccId];
                         if (inChosenAccount == null)
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
@@ -144,7 +144,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        var chosenAccount = currentUserAccounts.FirstOrDefault(a => a.accountId == accId);
+                        var chosenAccount = accountsDict[accId];
                         if (chosenAccount == null)
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");

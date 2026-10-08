@@ -20,7 +20,7 @@
 
             foreach (var acc in accounts)
             {
-                Console.WriteLine($"[{acc.Key}] KontoId: {acc.Value.accountId} Konto: {acc.Value.name}, Saldo: {acc.Value.balance:C}, Typ: {acc.Value.accType}");
+                Console.WriteLine($"[{acc.Key}] Konto: {acc.Value.name}, Saldo: {acc.Value.balance:C}, Typ: {acc.Value.accType}");
             }
 
         }
@@ -100,7 +100,7 @@
             }
             finally
             { sourceAccount.balance = originalBalance; }
-            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} kr och nytt saldo {targetAccount.accType} {targetAccount.balance:C} kr");
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} kr");
         }
     }
 
