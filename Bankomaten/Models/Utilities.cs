@@ -173,7 +173,7 @@ namespace Bankomaten.Models
             }
 
             return sb.ToString();
-            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C}");
+            //Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C}");
         }
 
         // Metod för parse input med Int
