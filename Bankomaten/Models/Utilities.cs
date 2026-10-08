@@ -98,9 +98,41 @@
             {
                 Console.WriteLine("Insättningen misslyckades");
             }
-            finally
-            { sourceAccount.balance = originalBalance; }
-            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} kr");
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C}");
+        }
+
+        // Metod för parse input med Int
+        public static bool IntParse(out int result, string errorMessage = "Ogiltig inmatning, försök igen")
+        {
+            if (!int.TryParse(Console.ReadLine(), out result))
+            {
+                return true;
+                
+            }
+            Console.WriteLine(errorMessage);
+            return false;
+        }
+
+        // Metod för parse input med Double
+        public static bool DoubleParse(out double result, string errorMessage = "Ogiltig inmatning, försök igen")
+        {
+            if (!double.TryParse(Console.ReadLine(), out result))
+            {
+                return true;
+            }
+            Console.WriteLine(errorMessage);
+            return false;
+        }
+
+        // Metod för parse input med Decimal
+        public static bool DecimalParse(out decimal result, string errorMessage = "Ogiltig inmatning, försök igen")
+        {
+            if (!decimal.TryParse(Console.ReadLine(), out result))
+            {
+                return true;
+            }
+            Console.WriteLine(errorMessage);
+            return false;
         }
     }
 
