@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq.Expressions;
-using System.Numerics;
-using System.Text;
-
-
-namespace Bankomaten.Models
+﻿namespace Bankomaten.Models
 {
     internal class Utilities
     {
@@ -15,22 +7,22 @@ namespace Bankomaten.Models
         /// Kontroller konton, summa, namn och kontotyp
         /// </summary>
         /// <param name="accounts">Alla dina konton om det finns några</param>
-        public static void CheckAmount(List<Account> accounts  )
+        public static void CheckAmount(Dictionary<int, Account> accounts)
         {
-            
-        
-                if (accounts.Count == 0)
-                {
-                    Console.WriteLine("Du har inga konton.");
-                    return;
-                }
-                Console.WriteLine("\n --- Saldo -----");
-                Console.WriteLine("Dina konton:");
-                foreach (var acc in accounts)
-                {
-                    Console.WriteLine( $"KontoId: {acc.accountId} Konto: {acc.name}, Saldo: {acc.balance:C}, Typ: {acc.accType}");
-                }
-          
+            if (accounts.Count == 0)
+            {
+                Console.WriteLine("Du har inga konton.");
+
+            }
+            Console.WriteLine("\n --- Saldo -----");
+            Console.WriteLine("Dina konton:");
+
+
+            foreach (var acc in accounts)
+            {
+                Console.WriteLine($"[{acc.Key}] Konto: {acc.Value.name}, Saldo: {acc.Value.balance:C}, Typ: {acc.Value.accType}");
+            }
+
         }
 
         /// <summary>
@@ -55,7 +47,7 @@ namespace Bankomaten.Models
 
             withDrawAccount.balance -= amount;
             Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {withDrawAccount.balance:C}");
-            
+
         }
 
         /// <summary>
@@ -83,7 +75,7 @@ namespace Bankomaten.Models
         /// <param name="amount">Beloppet som skall överföras.</param>
         /// <param name="sourceAccount">Kontot som pengarna dras från.</param>
         /// <param name="targetAccount">kontot som pengarna skal läggas till på.</param>
-        public static void Transfer(decimal amount,Account sourceAccount, Account targetAccount)
+        public static void Transfer(decimal amount, Account sourceAccount, Account targetAccount)
         {
             if (amount <= 0)
             {
@@ -106,9 +98,9 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine("Insättningen misslyckades");
             }
-            finally 
+            finally
             { sourceAccount.balance = originalBalance; }
-            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} kr och nytt saldo {targetAccount.accType} {targetAccount.balance:C} kr");
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} kr");
         }
     }
 
