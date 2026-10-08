@@ -9,9 +9,6 @@ namespace Bankomaten.Models
 {
     internal class User
     {
-
-       
-
         // Lagrar användarens användarnamn
         public string UserName { get; set; }
 
@@ -21,7 +18,6 @@ namespace Bankomaten.Models
         //lagrar ID för använadre
         public int UserId { get; set; }
 
-
         // Konstruktor
         public User(int userId, string userName, string passWord)
         {
@@ -30,6 +26,14 @@ namespace Bankomaten.Models
             UserId = userId;
         }
 
-      
+        // Lista med aktiva användare
+        public static List<User> UserList { get; private set; } = new List<User>
+        {
+            new User(1, "Ammar", "1234"),
+            new User(2, "Mattias", "1234"),
+            new User(3, "Lukas", "1234"),
+            new User(4, "Marco", "1234"),
+            new User(5, "Kalle", "1234")
+        };
     }
 }
