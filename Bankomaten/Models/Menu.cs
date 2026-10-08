@@ -125,7 +125,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Utilities.WithdrawAmount(amount, chosenAccount);
+                        Utilities.WithdrawAmount(user, amount, chosenAccount);
                         break;
 
                     // Logga ut
