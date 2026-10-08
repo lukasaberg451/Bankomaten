@@ -143,7 +143,7 @@ namespace Bankomaten.Models
                             Console.WriteLine("Ogiltig inmatning, försök igen");
                             continue;
                         }
-
+                        
                         var chosenAccount = accountsDict[accId];
                         if (chosenAccount == null)
                         {
@@ -151,7 +151,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Utilities.WithdrawAmount(amount, chosenAccount);
+                        Utilities.WithdrawAmount(user, amount, chosenAccount);
                         break;
 
                     // Logga ut

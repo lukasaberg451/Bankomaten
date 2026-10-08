@@ -30,7 +30,7 @@ namespace Bankomaten.Models
                 string? username = Console.ReadLine();
 
                 Console.Write("Pinkod: ");
-                string? pin = Console.ReadLine();
+                string? pin = Utilities.GetConsolePassword();
 
                 user = FindUser(username, pin);
 
