@@ -4,51 +4,19 @@ namespace Bankomaten.Models
 {
     internal class Menu
     {
-        // Lista med Bankkonton
-
-        // Metod som initialiserar data, antingen befintlig data från fil, eller standardvärden från Account, och returnerar en lista
-        private static List<Account> InitializeAccounts()
-        {
-            string path = "accounts.txt";
-            //Kolla om accounts.txt filen finns, om ej, skapa den med standardvärden från Account
-            if (!File.Exists(path))
-            {
-                Account AccountFile = new Account();
-                List<Account> AllAccounts = AccountFile.AddAccountData(); //Här kommer standardvärden in från Account
-
-                using StreamWriter userfile = new StreamWriter(path);
-                foreach (Account acc in AllAccounts)
-                {
-                    userfile.WriteLine($"{acc.accountId};{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
-                }
-                return AllAccounts;
-            }
-            //Om accounts.txt filen finns, läs kontona från filen och lägg datan därifrån i en list
-            else
-            {
-                List<Account> AllAccounts = new List<Account>();
-                using StreamReader reader = new StreamReader(path);
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] parts = line.Split(';');
-                    AllAccounts.Add(new Account(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]), parts[3], decimal.Parse(parts[4]), (Enum.Parse<accountType>(parts[5]))));
-                }
-                return AllAccounts;
-            }
-
-        }
-
         // Bank meny
         public static void BankMenu(User user)
         {
-            List<Account> AllAccounts = InitializeAccounts(); //Här kommer datan in, varesig den kommer från lokal fil eller Account klassen
+            //Här kommer datan in, varesig den kommer från lokal fil eller Account klassen
+            string path = "accounts.txt";
+            List<Account> AllAccounts = InitializeAccounts(path);
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
+            //Dictionary numrerar de aktuella kontona för användaren
             Dictionary<int, Account> accountsDict = new();
             for (int i = 0; i < currentUserAccounts.Count; i++)
             {
-                accountsDict.Add(i+1, currentUserAccounts[i]);
+                accountsDict.Add(i + 1, currentUserAccounts[i]);
             }
 
             int logOut = 0;
@@ -69,7 +37,7 @@ namespace Bankomaten.Models
                     // Överföring mellan två konton
                     case 2:
                         Utilities.CheckAmount(accountsDict);
-                        
+
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
                         if (!Utilities.IntParse(out int outAcc)) continue;
 
@@ -135,12 +103,7 @@ namespace Bankomaten.Models
                             logOut = 5;
 
                             //När användaren loggar ut, skriv alla kontona till filen så att de sparas
-                            string path = "accounts.txt";
-                            using StreamWriter userfile = new StreamWriter(path);
-                            foreach (Account acc in AllAccounts)
-                            {
-                                userfile.WriteLine($"{acc.accountId};{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
-                            }
+                            WriteAccountFile(path, AllAccounts);
                             break;
                         }
 
