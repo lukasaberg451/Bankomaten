@@ -19,10 +19,6 @@
         private accountType AccountType;
 
         // Constructors
-        public Account()
-        {
-            //Tom constructor som används till att kalla på metoden AddAccountData() utifrån
-        }
 
         // Standard constructor för att skapa konton med en räknare och slumpmässigt kontonummer
         public Account(int ownerid, string accountname, decimal balance, accountType accounttype)
@@ -50,7 +46,7 @@
         // Properties
         public int accountId
         {
-            get; 
+            get;
             //Inget set - användaren får inte ändra kontots Id
         }
         public int ownerId
@@ -79,8 +75,34 @@
             set { AccountType = value; }
         }
 
+        // Metod som initialiserar data, antingen befintlig data från fil, eller standardvärden från Account, och returnerar en lista
+        public static List<Account> InitializeAccounts(string path)
+        {
+            //Kolla om accounts.txt filen finns, om ej, skapa den med standardvärden från Account
+            if (!File.Exists(path))
+            {
+
+                List<Account> AllAccounts = AddAccountData(path); //Här kommer standardvärden in från Account
+                WriteAccountFile(path, AllAccounts);
+                return AllAccounts;
+            }
+            //Om accounts.txt filen finns, läs kontona från filen och lägg datan därifrån i en list
+            else
+            {
+                List<Account> AllAccounts = new List<Account>();
+                using StreamReader reader = new StreamReader(path);
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(';');
+                    AllAccounts.Add(new Account(int.Parse(parts[0]), int.Parse(parts[1]), int.Parse(parts[2]), parts[3], decimal.Parse(parts[4]), (Enum.Parse<accountType>(parts[5]))));
+                }
+                return AllAccounts;
+            }
+        }
+
         //Metod som returnerar en list, för att initiera data med standardvärden, om fil inte existerar
-        public List<Account> AddAccountData()
+        public static List<Account> AddAccountData(string path)
         {
             List<Account> AllAccounts = new List<Account> { 
             // Ammar konton
@@ -109,6 +131,16 @@
             new Account(5, "Kalle Depåkonto", 3000, accountType.Depåkonto)
             };
             return AllAccounts;
+        }
+
+        // Skriver standard värdena till fil
+        public static void WriteAccountFile(string path, List<Account> AllAccounts)
+        {
+            using StreamWriter userfile = new StreamWriter(path);
+            foreach (Account acc in AllAccounts)
+            {
+                userfile.WriteLine($"{acc.accountId};{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
+            }
         }
     }
 }
