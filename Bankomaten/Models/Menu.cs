@@ -13,11 +13,7 @@ namespace Bankomaten.Models
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
             //Dictionary numrerar de aktuella kontona för användaren
-            Dictionary<int, Account> accountsDict = new();
-            for (int i = 0; i < currentUserAccounts.Count; i++)
-            {
-                accountsDict.Add(i + 1, currentUserAccounts[i]);
-            }
+            Dictionary<int, Account> accountsDict = new(indexAccounts(currentUserAccounts));
 
             bool logOut = false;
 
@@ -96,8 +92,26 @@ namespace Bankomaten.Models
                         Utilities.WithdrawAmount(user, amount, chosenAccount);
                         break;
 
-                    // Logga ut
+                    // Öppna nytt konto
                     case 5:
+                        Console.WriteLine("Namn på kontot");
+                        string newAccountName = Console.ReadLine();
+                        Console.WriteLine("Välj kontotyp");
+                        Console.WriteLine("1. Sparkonto");
+                        Console.WriteLine("2. Lönekonto");
+                        Console.WriteLine("3. Depåkonto");
+
+                        if (!Utilities.IntParse(out int choice)) continue;
+                        accountType newAccountType = (accountType)(choice - 1);
+                        Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
+                        AllAccounts.Add(newAccount);
+                        currentUserAccounts.Add(newAccount);
+                        accountsDict = indexAccounts(currentUserAccounts);
+                        Console.WriteLine($"{newAccountType} skapades med kontonummer {newAccount.accountNumber}");
+                        break;
+
+                    // Logga ut
+                    case 6:
                         {
                             Console.WriteLine("Du är utloggad");
                             logOut = true;
@@ -117,7 +131,7 @@ namespace Bankomaten.Models
         // Metod för att skriva ut en array med meny alternativ
         public static void ShowMenuOptions()
         {
-            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Logga ut" };
+            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Öppna Konto", "6. Logga ut" };
 
             foreach (string option in options)
             {
