@@ -6,7 +6,9 @@ namespace Bankomaten
     {
         static void Main(string[] args)
         {
-            // TODO, system overview, modules etc
+            // Startpunkt för bankomaten.
+            // Flöde: Välkomstmeddelande -> Login -> Menu -> tillbaka till Login vid utloggning.
+            // Se README.md för en fullständig översikt över klasser och datastrukturer.
 
             while (true)
             {
