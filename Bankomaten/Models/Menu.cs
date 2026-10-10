@@ -95,13 +95,24 @@ namespace Bankomaten.Models
                     // Öppna nytt konto
                     case 5:
                         Console.WriteLine("Namn på kontot");
-                        string newAccountName = Console.ReadLine();
+                        string newAccountName = Console.ReadLine()?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(newAccountName))
+                        {
+                            Console.WriteLine("Ogiltigt kontonamn.");
+                            continue;
+                        }
                         Console.WriteLine("Välj kontotyp");
                         Console.WriteLine("1. Sparkonto");
                         Console.WriteLine("2. Lönekonto");
                         Console.WriteLine("3. Depåkonto");
 
-                        if (!Utilities.IntParse(out int choice)) continue;
+                        if (!Utilities.IntParse(out int choice) || choice < 1 || choice > 3)
+                        {
+                            Console.WriteLine("Vänligen välj en kontotyp från listan.");
+                            continue;
+                        }
+
                         accountType newAccountType = (accountType)(choice - 1);
                         Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
                         AllAccounts.Add(newAccount);
