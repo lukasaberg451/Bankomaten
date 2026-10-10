@@ -101,7 +101,7 @@ namespace Bankomaten.Models
                         Console.WriteLine("2. Lönekonto");
                         Console.WriteLine("3. Depåkonto");
 
-                        if (!Utilities.IntParse(out int choice)) continue;
+                        if (!Utilities.GenericParse(out int choice)) continue;
                         accountType newAccountType = (accountType)(choice - 1);
                         Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
                         AllAccounts.Add(newAccount);
