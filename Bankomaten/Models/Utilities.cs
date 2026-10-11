@@ -26,6 +26,7 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine($"[{acc.Key}] Konto: {acc.Value.name}, Saldo: {acc.Value.balance:C}, Typ: {acc.Value.accType}");
             }
+            
         }
         
         
@@ -81,6 +82,8 @@ namespace Bankomaten.Models
                 }
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
+
+            
         }
 
         /// <summary>
@@ -99,6 +102,7 @@ namespace Bankomaten.Models
                 depositAccount.balance += amount;
                 Console.WriteLine($"Det nya saldot på kontot: {depositAccount.balance}");
             }
+            
         }
 
         /// <summary>
@@ -135,6 +139,7 @@ namespace Bankomaten.Models
             }
             
             Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} ");
+           
         }
 
         /// <summary>
@@ -169,7 +174,7 @@ namespace Bankomaten.Models
             }
 
             return sb.ToString();
-            //Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C}");
+            
         }
 
         // Generic parse för olika datatyper tex int, decimal och double
@@ -182,6 +187,13 @@ namespace Bankomaten.Models
             }
             Console.WriteLine(errorMessage);
             return false;
+        }
+
+        public static void enterPress()
+        {
+            Console.Write("Tryck <Enter> för att återgå till meny... ");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+            Console.Clear();
         }
     }
 }
