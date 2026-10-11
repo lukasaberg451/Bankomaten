@@ -13,19 +13,15 @@ namespace Bankomaten.Models
             List<Account> currentUserAccounts = AllAccounts.Where(a => a.ownerId == user.UserId).ToList();
 
             //Dictionary numrerar de aktuella kontona för användaren
-            Dictionary<int, Account> accountsDict = new();
-            for (int i = 0; i < currentUserAccounts.Count; i++)
-            {
-                accountsDict.Add(i + 1, currentUserAccounts[i]);
-            }
+            Dictionary<int, Account> accountsDict = new(indexAccounts(currentUserAccounts));
 
-            int logOut = 0;
+            bool logOut = false;
 
-            while (logOut != 5)
+            while (logOut != true)
             {
                 ShowMenuOptions();
-
-                if (!Utilities.IntParse(out int userSelection, "Ogiltigt val")) continue;
+                
+                if (!Utilities.GenericParse(out int userSelection, "Ogiltigt val")) continue;
 
                 switch (userSelection)
                 {
@@ -38,14 +34,14 @@ namespace Bankomaten.Models
                     case 2:
                         Utilities.CheckAmount(accountsDict);
 
-                        Console.WriteLine("Vilket konto skall du sätta in på? ");
-                        if (!Utilities.IntParse(out int outAcc)) continue;
+                        Console.WriteLine("Vilket konto skall du sätta in på?");
+                        if (!Utilities.GenericParse(out int outAcc)) continue;
 
-                        Console.WriteLine("Vilket konto skall du ta ut från? ");
-                        if (!Utilities.IntParse(out int inAcc)) continue;
+                        Console.WriteLine("Vilket konto skall du ta ut från?");
+                        if (!Utilities.GenericParse(out int inAcc)) continue;
 
-                        Console.WriteLine("Hur mycket skal du föra över? ");
-                        if (!Utilities.DecimalParse(out decimal amountTransfer)) continue;
+                        Console.WriteLine("Hur mycket skall du föra över?");
+                        if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
 
                         var outChosenAccount = accountsDict[outAcc];
                         var innChosenAccount = accountsDict[inAcc];
@@ -62,10 +58,10 @@ namespace Bankomaten.Models
                     case 3:
                         Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du sätta in på? ");
-                        if (!Utilities.IntParse(out int inAccId)) continue;
+                        if (!Utilities.GenericParse(out int inAccId)) continue;
 
                         Console.WriteLine("Hur mycket skall du sätta in? ");
-                        if (!Utilities.DecimalParse(out decimal inAmount)) continue;
+                        if (!Utilities.GenericParse(out decimal inAmount)) continue;
 
                         var inChosenAccount = accountsDict[inAccId];
                         if (inChosenAccount == null)
@@ -81,10 +77,10 @@ namespace Bankomaten.Models
                     case 4:
                         Utilities.CheckAmount(accountsDict);
                         Console.WriteLine("Vilket konto skall du ta ut från ");
-                        if (!Utilities.IntParse(out int accId)) continue;
+                        if (!Utilities.GenericParse(out int accId)) continue;
 
                         Console.WriteLine("Hur mycket skall du ta ut? ");
-                        if (!Utilities.DecimalParse(out decimal amount)) continue;
+                        if (!Utilities.GenericParse(out decimal amount)) continue;
 
                         var chosenAccount = accountsDict[accId];
                         if (chosenAccount == null)
@@ -96,11 +92,29 @@ namespace Bankomaten.Models
                         Utilities.WithdrawAmount(user, amount, chosenAccount);
                         break;
 
-                    // Logga ut
+                    // Öppna nytt konto
                     case 5:
+                        Console.WriteLine("Namn på kontot");
+                        string newAccountName = Console.ReadLine();
+                        Console.WriteLine("Välj kontotyp");
+                        Console.WriteLine("1. Sparkonto");
+                        Console.WriteLine("2. Lönekonto");
+                        Console.WriteLine("3. Depåkonto");
+
+                        if (!Utilities.GenericParse(out int choice)) continue;
+                        accountType newAccountType = (accountType)(choice - 1);
+                        Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
+                        AllAccounts.Add(newAccount);
+                        currentUserAccounts.Add(newAccount);
+                        accountsDict = indexAccounts(currentUserAccounts);
+                        Console.WriteLine($"{newAccountType} skapades med kontonummer {newAccount.accountNumber}");
+                        break;
+
+                    // Logga ut
+                    case 6:
                         {
                             Console.WriteLine("Du är utloggad");
-                            logOut = 5;
+                            logOut = true;
 
                             //När användaren loggar ut, skriv alla kontona till filen så att de sparas
                             WriteAccountFile(path, AllAccounts);
@@ -117,7 +131,7 @@ namespace Bankomaten.Models
         // Metod för att skriva ut en array med meny alternativ
         public static void ShowMenuOptions()
         {
-            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Logga ut" };
+            string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Öppna Konto", "6. Logga ut" };
 
             foreach (string option in options)
             {

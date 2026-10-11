@@ -1,14 +1,12 @@
 ﻿using System.Net.NetworkInformation;
 using System.Security;
 using System.Text;
-using System.Threading.Channels;
+using System.Globalization;
 
 namespace Bankomaten.Models
 {
     internal class Utilities
     {
-        
-
         /// <summary>
         /// Kontroller konton, summa, namn och kontotyp
         /// </summary>
@@ -28,7 +26,6 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine($"[{acc.Key}] Konto: {acc.Value.name}, Saldo: {acc.Value.balance:C}, Typ: {acc.Value.accType}");
             }
-
         }
         
         
@@ -64,8 +61,7 @@ namespace Bankomaten.Models
             {
                 string pinCode = GetConsolePassword();
 
-                
-                if (user.PassWord == pinCode)
+                if (user.Password == pinCode)
                 {
                     isAuthenticated = true;
                     withDrawAccount.balance -= amount;
@@ -85,10 +81,6 @@ namespace Bankomaten.Models
                 }
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
-            
-
-            
-
         }
 
         /// <summary>
@@ -108,6 +100,7 @@ namespace Bankomaten.Models
                 Console.WriteLine($"Det nya saldot på kontot: {depositAccount.balance}");
             }
         }
+
         /// <summary>
         /// Överför pengar mella två användarkonton. 
         /// Vid misslyckande insättning skall den återställa 
@@ -179,40 +172,16 @@ namespace Bankomaten.Models
             //Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C}");
         }
 
-        // Metod för parse input med Int
-        public static bool IntParse(out int result, string errorMessage = "Ogiltig inmatning, försök igen")
+        // Generic parse för olika datatyper tex int, decimal och double
+        public static bool GenericParse<T>(out T result, string errorMessage = "Ogiltig inmatning, försök igen")
+            where T : ISpanParsable<T>
         {
-            if (int.TryParse(Console.ReadLine(), out result))
+            if (T.TryParse(Console.ReadLine(), CultureInfo.CurrentCulture, out result))
             {
-                return true;
-                
-            }
-            Console.WriteLine(errorMessage);
-            return false;
-        }
-
-        // Metod för parse input med Double
-        public static bool DoubleParse(out double result, string errorMessage = "Ogiltig inmatning, försök igen")
-        {
-            if (double.TryParse(Console.ReadLine(), out result))
-            {
-                return true;
-            }
-            Console.WriteLine(errorMessage);
-            return false;
-        }
-
-        // Metod för parse input med Decimal
-        public static bool DecimalParse(out decimal result, string errorMessage = "Ogiltig inmatning, försök igen")
-        {
-            if (decimal.TryParse(Console.ReadLine(), out result))
-            {
-                return true;
+                 return true;
             }
             Console.WriteLine(errorMessage);
             return false;
         }
     }
-
 }
-
