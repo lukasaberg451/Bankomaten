@@ -1,6 +1,7 @@
 ﻿using System.Net.NetworkInformation;
 using System.Security;
 using System.Text;
+using System.Threading.Channels;
 
 namespace Bankomaten.Models
 {
@@ -29,7 +30,8 @@ namespace Bankomaten.Models
             }
 
         }
-
+        
+        
         /// <summary>
         /// Tar ut pengar på ett specifikt konto, men kontrollerar först om det finns tillräckligt 
         /// För att fullföra uttag kontrolleras pin kod.
@@ -44,6 +46,7 @@ namespace Bankomaten.Models
             {
                 Console.WriteLine("Beloppet måste vara större än noll.");
                 return;
+                
             }
 
             if (amount > withDrawAccount.balance)
