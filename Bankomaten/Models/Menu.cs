@@ -29,6 +29,7 @@ namespace Bankomaten.Models
                     // Se konton och saldo
                     case 1:
                         Utilities.CheckAmount(accountsDict);
+                        Utilities.enterPress();
                         break;
 
                     // Överföring mellan två konton
@@ -53,6 +54,7 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
+                        Utilities.enterPress();
                         break;
 
                     // Sätta in pengar
@@ -72,6 +74,7 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.Deposit(inAmount, inChosenAccount);
+                        Utilities.enterPress();
                         break;
 
                     // Ta ut pengar
@@ -91,6 +94,7 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.WithdrawAmount(user, amount, chosenAccount);
+                        Utilities.enterPress();
                         break;
 
                     // Öppna nytt konto
@@ -128,6 +132,7 @@ namespace Bankomaten.Models
                         currentUserAccounts.Add(newAccount);
                         accountsDict = indexAccounts(currentUserAccounts);
                         Console.WriteLine($"{newAccountType} skapades med kontonummer {newAccount.accountNumber}");
+                        Utilities.enterPress();
                         break;
 
                     // Logga ut
