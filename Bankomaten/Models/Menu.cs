@@ -109,14 +109,7 @@ namespace Bankomaten.Models
                         }
 
                         // Skriv ut alla enums och numrera dem till menyn
-                        Console.WriteLine("Välj kontotyp");
-                        int i = 1;
-                        foreach (accountType accountType in Enum.GetValues<accountType>())
-                        {
-                            
-                            Console.WriteLine($"{i}. {accountType}");
-                            i++;
-                        }
+                        writeAccountTypes();
 
                         if (!Utilities.GenericParse(out int choice) || choice < 1 || choice > 5)
                         {

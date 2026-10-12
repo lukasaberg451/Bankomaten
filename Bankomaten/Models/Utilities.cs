@@ -60,7 +60,7 @@ namespace Bankomaten.Models
 
             do
             {
-                string pinCode = GetConsolePassword();
+                string? pinCode = GetConsolePin();
 
                 if (user.Password == pinCode)
                 {
@@ -144,31 +144,39 @@ namespace Bankomaten.Models
 
         /// <summary>
         /// Gets the console password.
+        /// Hides the characters in password
         /// </summary>
         /// <returns></returns>
-        public static string GetConsolePassword()
+        public static string GetConsolePin()
         {
-            StringBuilder password = new StringBuilder();
-            while (true)
+
+            string pin = "";
+            ConsoleKeyInfo key;
+
+            do
             {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter)
-                {
-                    Console.WriteLine();
-                    break;
-                }
+                key = Console.ReadKey(true);
 
-                if (key.Key == ConsoleKey.Backspace)
+                
+                if (key.Key != ConsoleKey.Backspace)
                 {
-                    continue;
+                    pin += key.KeyChar;
+                    Console.Write("*");
                 }
-
-                Console.Write('*');
-                password.Append(key.KeyChar);
+                else if (key.Key == ConsoleKey.Backspace)
+                {
+                    if (pin.Length > 0)
+                        pin = pin.Substring(0, pin.Length - 1);
+                    Console.Write("\b \b");
+                }
             }
+           
+            while (key.Key != ConsoleKey.Enter );
+           
+            return pin.TrimEnd('\r', '\n');
 
-            return password.ToString();
         }
+
 
         // Generic parse för olika datatyper tex int, decimal och double
         public static bool GenericParse<T>(out T result, string errorMessage = "Ogiltig inmatning, försök igen")
