@@ -1,4 +1,5 @@
-﻿using static Bankomaten.Models.Account;
+﻿using System.Security.AccessControl;
+using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
 {
@@ -36,16 +37,16 @@ namespace Bankomaten.Models
                         Utilities.CheckAmount(accountsDict);
 
                         Console.WriteLine("Vilket konto skall du sätta in på?");
-                        if (!Utilities.GenericParse(out int outAcc)) continue;
+                        if (!Utilities.GenericParse(out int fromAccount)) continue;
 
                         Console.WriteLine("Vilket konto skall du ta ut från?");
-                        if (!Utilities.GenericParse(out int inAcc)) continue;
+                        if (!Utilities.GenericParse(out int toAccount)) continue;
 
                         Console.WriteLine("Hur mycket skall du föra över?");
                         if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
 
-                        var outChosenAccount = accountsDict[outAcc];
-                        var innChosenAccount = accountsDict[inAcc];
+                        var outChosenAccount = accountsDict[fromAccount];
+                        var innChosenAccount = accountsDict[toAccount];
                         if (innChosenAccount == null || outChosenAccount == null)
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
@@ -98,15 +99,27 @@ namespace Bankomaten.Models
 
                     // Öppna nytt konto
                     case 5:
-                        Console.WriteLine("Namn på kontot");
-                        string newAccountName = Console.ReadLine();
-                        Console.WriteLine("Välj kontotyp");
-                        Console.WriteLine("1. Sparkonto");
-                        Console.WriteLine("2. Lönekonto");
-                        Console.WriteLine("3. Depåkonto");
+                        Console.WriteLine("Skriv namn på kontot :");
+                        string newAccountName = Console.ReadLine()?.Trim();
 
-                        if (!Utilities.GenericParse(out int choice)) continue;
+                        if (string.IsNullOrWhiteSpace(newAccountName))
+                        {
+                            Console.WriteLine("Ogiltigt kontonamn.");
+                            continue;
+                        }
+
+                        // Skriv ut alla enums och numrera dem till menyn
+                        writeAccountTypes();
+
+                        if (!Utilities.GenericParse(out int choice) || choice < 1 || choice > 5)
+                        {
+                            Console.WriteLine("Vänligen välj en kontotyp från listan.");
+                            continue;
+                        }
+
                         accountType newAccountType = (accountType)(choice - 1);
+
+                        // Det nya kontot skapas och läggs till i våra listor och dictionary
                         Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
                         AllAccounts.Add(newAccount);
                         currentUserAccounts.Add(newAccount);
@@ -137,6 +150,8 @@ namespace Bankomaten.Models
         public static void ShowMenuOptions()
         {
             string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Öppna Konto", "6. Logga ut" };
+
+            Console.WriteLine();
 
             foreach (string option in options)
             {
