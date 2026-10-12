@@ -1,35 +1,66 @@
-<img width="1220" height="620" alt="Bankomaten" src="https://github.com/user-attachments/assets/304aef09-c6d8-451e-90e5-3971e2eb6d88" />
+# Sharp Legend Bankomat
+
+En konsolapplikation i C# (.NET 10) som simulerar en bankomat. Användaren loggar in med användarnamn och pinkod och kan sedan se sina konton, föra över pengar, sätta in och ta ut pengar samt öppna nya konton.
+
+## Kom igång
+
+1. Öppna lösningen i Visual Studio.
+2. Kör projektet.
+3. Logga in med någon av användarna nedan.
+
+| Användarnamn | Pinkod |
+|---|---|
+| Ammar | 1234 |
+| Mattias | 1234 |
+| Lukas | 1234 |
+| Marco | 1234 |
+| Kalle | 1234 |
 
 ## Systemöversikt
 
 ### Programflöde
 
 1. **Program (Main)** visar välkomstmeddelandet och anropar Login.
-2. **Login** frågar efter användarnamn och pinkod och returnerar en `User` om inloggningen lyckas, annars `null`. Efter 3 felaktiga försök visas en nedräkning (lockout) innan användaren får försöka igen.
-3. Om en `User` returneras öppnas **Menu**.
-4. När användaren väljer "Logga ut" sparas kontona till fil, menyn avslutas och programmet går tillbaka till inloggningen.
+2. **Login** frågar efter användarnamn och pinkod (pinkoden visas som `*`) och returnerar en `User` om inloggningen lyckas, annars `null`. Efter 3 felaktiga försök visas en nedräkning på 3 minuter (lockout) innan användaren får försöka igen.
+3. Om en `User` returneras öppnas **Menu**. Kontona läses in från `accounts.txt` och filtreras fram för den inloggade användaren.
+4. Användaren väljer bland menyvalen. Efter varje funktion trycker användaren Enter för att komma tillbaka till menyn.
+5. När användaren väljer "Logga ut" sparas alla konton till fil, menyn avslutas och programmet går tillbaka till inloggningen.
 
-Main körs i en oändlig loop, så programmet stängs aldrig av sig självt, precis som en riktig bankomat.
+Main körs i en oändlig loop, så programmet stängs aldrig av sig självt.
+
+### Menyval
+
+1. Se dina konton och saldo
+2. Överföring mellan konton
+3. Sätt in pengar
+4. Ta ut pengar (kräver pinkod för att bekräfta, max 3 försök)
+5. Öppna konto (välj namn och kontotyp, startsaldo 0 kr)
+6. Logga ut
 
 ### Klasser
 
 | Klass | Ansvar |
 |---|---|
 | `Program` | Startpunkt. Styr ordningen mellan inloggning och meny. |
-| `Login` | Kontrollerar inloggning mot användarlistan och hanterar lockout-klockan. |
-| `Menu` | Visar menyval, läser in användarens val och anropar rätt funktion. Läser och sparar konton till `accounts.txt`. |
-| `Utilities` | Hjälpmetoder för inmatning (`IntParse`, `DecimalParse`), visa konton, insättning, uttag och överföring. |
+| `Login` | Kontrollerar inloggning mot användarlistan i `User`, räknar felaktiga försök och visar lockout-klockan. |
+| `Menu` | Visar menyval, läser in användarens val och anropar rätt funktion. Laddar kontona vid inloggning och sparar dem vid utloggning. |
+| `Utilities` | Hjälpmetoder: visa konton, insättning, uttag (med pinkodskontroll), överföring, dold inmatning av pinkod, generisk inläsning av tal och "Tryck enter för att komma till huvudmenyn". |
 | `User` | En användare med id, användarnamn och pinkod. Innehåller även listan med de 5 användarna som skapas vid programstart. |
-| `Account` | Ett bankkonto med id, ägare (`ownerId`), kontonummer, namn, saldo och kontotyp. Innehåller även standardkontona som skapas första gången programmet körs. |
+| `Account` | Ett bankkonto med ägare (`ownerId`), kontonummer, namn, saldo och kontotyp. Ansvarar även för att läsa och skriva kontona till fil, skapa standardkonton och numrera en användares konton. |
 
 ### Hur klasserna hänger ihop
 
 ```
 Program
-  ├── Login ──> User (användarlistan)
-  └── Menu ──> Account (alla konton, filtreras på ownerId)
-         └── Utilities (inmatning, insättning, uttag, överföring)
+  ├── Login ──> User (UserList med alla användare)
+  │     └── Utilities.GetConsolePassword (dold pinkod)
+  └── Menu ──> Account (läser/sparar accounts.txt, numrerar konton)
+         └── Utilities (inmatning, visa konton, insättning, uttag, överföring)
 ```
+
+- `Login` returnerar den inloggade `User` till `Program`, som skickar den vidare till `Menu`.
+- `Menu` filtrerar fram användarens konton med `ownerId == UserId`.
+- `Account` och `User` är objekt. Övriga klasser innehåller logik som arbetar med dessa objekt.
 
 ### Datastrukturer
 
@@ -37,56 +68,51 @@ Program
 |---|---|---|
 | `string[]` | Menyalternativen | Fast antal alternativ som aldrig ändras, så en array räcker. |
 | `List<User>` | Alla användare | Enkel att loopa igenom och söka i vid inloggning. |
-| `List<Account>` | Alla konton, samt den inloggade användarens konton | Användare har olika antal konton, och en List kan växa efter behov. |
-| `Dictionary<int, Account>` | Numrerar användarens konton 1, 2, 3... | Snabb uppslagning på det nummer användaren skriver in. |
-| `enum accountType` | Kontotyper (Sparkonto, Lönekonto, Depåkonto) | Begränsar kontotyperna till giltiga värden och gör det enkelt att lägga till fler. |
+| `List<Account>` | Alla konton, samt den inloggade användarens konton | Användare har olika antal konton och kan öppna nya, så listan behöver kunna växa. |
+| `Dictionary<int, Account>` | Numrerar användarens konton 1, 2, 3... | Användaren väljer konto med ett enkelt nummer, och uppslagningen på nyckeln går snabbt. |
+| `enum accountType` | Kontotyper (Sparkonto, Lönekonto, Räkningskonto, Fondkonto, Depåkonto) | Begränsar kontotyperna till giltiga värden och gör det enkelt att lägga till fler. Används även för att bygga listan vid "Öppna konto". |
+| `StringBuilder` | Bygger pinkoden tecken för tecken | Effektivt sätt att bygga en sträng när varje tangent läses in separat. |
+
+### Inmatning och validering
+
+- **`GenericParse<T>`** är en generisk metod som läser in och kontrollerar tal av olika typer (`int`, `decimal` m.fl.) med samma kod. Den returnerar `true`/`false` och skickar tillbaka värdet via en `out`-parameter, på samma sätt som `int.TryParse`. Felmeddelandet kan anpassas, till exempel "Ogiltigt val" i huvudmenyn.
+- **`GetConsolePassword`** läser pinkoden tangent för tangent och visar `*` istället för siffrorna.
+- **Belopp** kontrolleras så att de är större än noll och inte överstiger saldot.
 
 ### Datalagring
 
-Kontona sparas i `accounts.txt`, en rad per konto med fälten separerade med `;`. Finns filen inte skapas den med standardvärden från `Account`.
+Kontona sparas i `accounts.txt`, en rad per konto i formatet:
 
-# Bankomaten
-En bankomat-app där användaren kan se konton, saldon, samt överföra pengar mellan konton. <br>
-Vi skriver kommentarer på Svenska <br>
-Variabler ska ha beskrivande namn, och skrivs i camelCase
+```
+ownerId;kontonummer;namn;saldo;kontotyp
+```
 
-# Arbetsfördelning
-## Ammar
-class User + constructor
-### Fields
-UserName <br>
-Password <br>
-list of accounts Accounts <br>
-### Methods
-ShowUserInfo() <br>
-AddUser()
+Finns filen inte skapas den med standardvärden från `Account.AddAccountData`. Ändringar sparas när användaren loggar ut. Ta bort `accounts.txt` för att återställa alla saldon till startvärdena.
 
-## Lukas
-GitHub master branch<br>
-class Main (just run menu)<br>
-class Login / Main Menu
+### Extrafunktioner
 
-## Marco
-class Bank <br>
-### Methods
-ShowAccounts <br>
-ShowBalance <br>
-TransferMoney 
+- Sparar konton till fil mellan körningar
+- Lockout-klocka med nedräkning efter 3 felaktiga inloggningsförsök
+- Dold pinkod vid inmatning
+- Insättning av pengar
+- Öppna nytt konto med valfri kontotyp
 
-## Mattias
-class Account + constructor
-### Fields
-Id <br>
-AccountNumber <br>
-User <br>
-AccountName <br>
-AccountType <br>
-Balance
+## Reflektion
 
-# Data Structures
-array <br>
-list - <br>
-stack - transaction history
-# Övriga Anteckningar
-"nice to have features" <br>
-file handling, Class Library
+_TODO: Motivera hur ni byggt upp programmet, vilka andra lösningar ni övervägt, vad ni skulle göra annorlunda och vilka förbättringar ni ser men inte hunnit göra. Reflektera särskilt över valet av datastrukturer och klassindelningen._
+
+## Arbetsfördelning
+### Ammar
+- class User + constructor
+
+### Lukas
+- GitHub master branch
+- Main Class
+- Login Class
+- Menu Class
+  
+### Marco
+- Bank Class
+  
+### Mattias
+- Account Class

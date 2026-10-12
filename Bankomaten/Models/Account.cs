@@ -13,6 +13,8 @@
         {
             Sparkonto,
             Lönekonto,
+            Räkningskonto,
+            Fondkonto,
             Depåkonto
         }
         private accountType AccountType;
@@ -102,6 +104,7 @@
             new Account(1, "Ammar Lönekonto", 2000, accountType.Lönekonto),
             new Account(1, "Ammar Depåkonto", 3000, accountType.Depåkonto),
             new Account(1, "Ammar Värdepapper", 20000, accountType.Depåkonto),
+            new Account(1, "Mina Fonder", 10000, accountType.Fondkonto),
 
             // Mattias konton
             new Account(2, "Mattias Sparkonto", 1000, accountType.Sparkonto),
@@ -133,6 +136,7 @@
                 userfile.WriteLine($"{acc.ownerId};{acc.accountNumber};{acc.name};{acc.balance};{acc.accType}");
             }
         }
+
         // Dictionary som numrerar användares konton
         public static Dictionary<int, Account> indexAccounts(List<Account> userAccounts)
         {
@@ -143,6 +147,19 @@
             }
 
             return accountsDict;
+        }
+
+        // Skriv ut alla kontotyper
+        public static void writeAccountTypes()
+        {
+            Console.WriteLine("Välj kontotyp");
+            int i = 1;
+            foreach (accountType accountType in Enum.GetValues<accountType>())
+            {
+
+                Console.WriteLine($"{i}. {accountType}");
+                i++;
+            }
         }
     }
 }
