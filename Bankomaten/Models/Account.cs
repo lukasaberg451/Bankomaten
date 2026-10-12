@@ -13,6 +13,8 @@
         {
             Sparkonto,
             Lönekonto,
+            Räkningskonto,
+            Fondkonto,
             Depåkonto
         }
         private accountType AccountType;

@@ -1,4 +1,5 @@
-﻿using static Bankomaten.Models.Account;
+﻿using System.Security.AccessControl;
+using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
 {
@@ -98,15 +99,34 @@ namespace Bankomaten.Models
 
                     // Öppna nytt konto
                     case 5:
-                        Console.WriteLine("Namn på kontot");
-                        string newAccountName = Console.ReadLine();
-                        Console.WriteLine("Välj kontotyp");
-                        Console.WriteLine("1. Sparkonto");
-                        Console.WriteLine("2. Lönekonto");
-                        Console.WriteLine("3. Depåkonto");
+                        Console.WriteLine("Skriv namn på kontot :");
+                        string newAccountName = Console.ReadLine()?.Trim();
 
-                        if (!Utilities.GenericParse(out int choice)) continue;
+                        if (string.IsNullOrWhiteSpace(newAccountName))
+                        {
+                            Console.WriteLine("Ogiltigt kontonamn.");
+                            continue;
+                        }
+
+                        // Skriv ut alla enums och numrera dem till menyn
+                        Console.WriteLine("Välj kontotyp");
+                        int i = 1;
+                        foreach (accountType accountType in Enum.GetValues<accountType>())
+                        {
+                            
+                            Console.WriteLine($"{i}. {accountType}");
+                            i++;
+                        }
+
+                        if (!Utilities.GenericParse(out int choice) || choice < 1 || choice > 5)
+                        {
+                            Console.WriteLine("Vänligen välj en kontotyp från listan.");
+                            continue;
+                        }
+
                         accountType newAccountType = (accountType)(choice - 1);
+
+                        // Det nya kontot skapas och läggs till i våra listor och dictionary
                         Account newAccount = new Account(user.UserId, newAccountName, 0, newAccountType);
                         AllAccounts.Add(newAccount);
                         currentUserAccounts.Add(newAccount);
