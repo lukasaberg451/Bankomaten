@@ -53,7 +53,7 @@ namespace Bankomaten.Models
          // Metod för att hitta användare i listan av användare
         public static User? FindUser(string? username, string? pin)
         {
-            User? user = User.UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin);
+            User? user = User.UserList.FirstOrDefault(u => u.Username == username && u.Password == pin);
             return user;
         }
 
