@@ -11,7 +11,7 @@ namespace Bankomaten
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\n--- Välkommen till Sharp Legend Bank ---");
+                Console.WriteLine("--- Välkommen till Sharp Legend Bank ---");
                 Console.ResetColor();
 
                  Kontrollera om användaren finns

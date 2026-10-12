@@ -9,14 +9,11 @@ namespace Bankomaten.Models
 {
     internal class User
     {
-
-       
-
         // Lagrar användarens användarnamn
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         // Lagrar användarens lösenord
-        public string PassWord { get; set; }
+        public string Password { get; set; }
         
         //lagrar ID för använadre
         public int UserId { get; set; }
