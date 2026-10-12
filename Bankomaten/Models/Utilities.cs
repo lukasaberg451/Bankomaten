@@ -148,33 +148,26 @@ namespace Bankomaten.Models
         /// <returns></returns>
         public static string GetConsolePassword()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder password = new StringBuilder();
             while (true)
             {
-                ConsoleKeyInfo cki = Console.ReadKey(true);
-                if (cki.Key == ConsoleKey.Enter)
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
                 {
                     Console.WriteLine();
                     break;
                 }
 
-                if (cki.Key == ConsoleKey.Backspace)
+                if (key.Key == ConsoleKey.Backspace)
                 {
-                    if (sb.Length > 0)
-                    {
-                        Console.Write("\b\0\b");
-                        sb.Length--;
-                    }
-
                     continue;
                 }
 
                 Console.Write('*');
-                sb.Append(cki.KeyChar);
+                password.Append(key.KeyChar);
             }
 
-            return sb.ToString();
-            
+            return password.ToString();
         }
 
         // Generic parse för olika datatyper tex int, decimal och double
