@@ -60,7 +60,7 @@ namespace Bankomaten.Models
 
             do
             {
-                string? pinCode = GetConsolePassword();
+                string? pinCode = GetConsolePin();
 
                 if (user.Password == pinCode)
                 {
@@ -147,10 +147,10 @@ namespace Bankomaten.Models
         /// Hides the characters in password
         /// </summary>
         /// <returns></returns>
-        public static string GetConsolePassword()
+        public static string GetConsolePin()
         {
 
-            string pass = "";
+            string pin = "";
             ConsoleKeyInfo key;
 
             do
@@ -160,20 +160,20 @@ namespace Bankomaten.Models
                 
                 if (key.Key != ConsoleKey.Backspace)
                 {
-                    pass += key.KeyChar;
+                    pin += key.KeyChar;
                     Console.Write("*");
                 }
                 else if (key.Key == ConsoleKey.Backspace)
                 {
-                    if (pass.Length > 0)
-                        pass = pass.Substring(0, pass.Length - 1);
+                    if (pin.Length > 0)
+                        pin = pin.Substring(0, pin.Length - 1);
                     Console.Write("\b \b");
                 }
             }
            
             while (key.Key != ConsoleKey.Enter );
            
-            return pass.TrimEnd('\r', '\n');
+            return pin.TrimEnd('\r', '\n');
 
         }
 
