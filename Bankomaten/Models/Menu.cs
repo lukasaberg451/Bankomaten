@@ -145,7 +145,9 @@ namespace Bankomaten.Models
                         Console.WriteLine("Ogiltigt val");
                         break;
                 }
-                if (currentTransactions.Count == 0)
+
+                // Visa senaste transaktioner om användaren har gjort transaktioner
+                if (currentTransactions.Count == 0 || logOut == true)
                 {
                     //Gör ingenting
                 }
