@@ -88,7 +88,6 @@ namespace Bankomaten.Models
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
 
-            
         }
 
         /// <summary>
@@ -186,9 +185,12 @@ namespace Bankomaten.Models
                 }
                 else if (key.Key == ConsoleKey.Backspace)
                 {
+                     
                     if (pin.Length > 0)
+                    {
                         pin = pin.Substring(0, pin.Length - 1);
-                    Console.Write("\b \b");
+                        Console.Write("\b \b");
+                    }
                 }
             }
            
@@ -197,7 +199,6 @@ namespace Bankomaten.Models
             return pin.TrimEnd('\r', '\n');
 
         }
-
 
         // Generic parse för olika datatyper tex int, decimal och double
         public static bool GenericParse<T>(out T result, string errorMessage = "Ogiltig inmatning, försök igen")
@@ -210,7 +211,6 @@ namespace Bankomaten.Models
             Console.WriteLine(errorMessage);
             return false;
         }
-
         public static void enterPress()
         {
             Console.Write("Tryck <Enter> för att återgå till meny... ");
