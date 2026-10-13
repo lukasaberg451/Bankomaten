@@ -1,4 +1,4 @@
-﻿namespace Bankomaten.Models
+namespace Bankomaten.Models
 {
     internal class Account
     {
