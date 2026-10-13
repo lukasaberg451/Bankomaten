@@ -16,6 +16,9 @@ namespace Bankomaten.Models
             //Dictionary numrerar de aktuella kontona för användaren
             Dictionary<int, Account> accountsDict = new(indexAccounts(currentUserAccounts));
 
+            //
+            Stack<Transactions> currentTransactions = new Stack<Transactions>();
+
             bool logOut = false;
 
             while (logOut != true)
@@ -44,19 +47,19 @@ namespace Bankomaten.Models
 
                         Console.WriteLine("Hur mycket skall du föra över?");
                         if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
-
-                       
-                        
                         
                         if (!accountsDict.TryGetValue(fromAccount, out Account? fromChosenAccount) ||
                             !accountsDict.TryGetValue(toAccount, out Account? toChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
-                        }
-                                               
+                        }                 
 
                         Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
+                        Transactions transaction1 = new Transactions(fromChosenAccount, amountTransfer, '-');
+                        Transactions transaction2 = new Transactions(toChosenAccount, amountTransfer, '+');
+                        currentTransactions.Push(transaction1);
+                        currentTransactions.Push(transaction2);
                         Utilities.enterPress();
                         break;
 
@@ -76,6 +79,8 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.Deposit(inAmount, inChosenAccount);
+                        Transactions transaction3 = new Transactions(inChosenAccount, inAmount, '+');
+                        currentTransactions.Push(transaction3);
                         Utilities.enterPress();
                         break;
 
@@ -96,6 +101,8 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.WithdrawAmount(user, amount, chosenAccount);
+                        Transactions transaction4 = new Transactions(chosenAccount, amount, '-');
+                        currentTransactions.Push(transaction4);
                         Utilities.enterPress();
                         break;
 
@@ -144,6 +151,14 @@ namespace Bankomaten.Models
                     default:
                         Console.WriteLine("Ogiltigt val");
                         break;
+                }
+                if (currentTransactions.Count == 0)
+                {
+                    //Gör ingenting
+                }
+                else
+                {
+                    Transactions.ShowTransactions(currentTransactions);
                 }
             }
         }
