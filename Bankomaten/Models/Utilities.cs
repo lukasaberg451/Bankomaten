@@ -103,6 +103,7 @@ namespace Bankomaten.Models
                 Console.WriteLine($"Det nya saldot på kontot: {depositAccount.balance}");
             }
             
+
         }
 
         /// <summary>
@@ -158,7 +159,7 @@ namespace Bankomaten.Models
                 key = Console.ReadKey(true);
 
                 
-                if (key.Key != ConsoleKey.Backspace)
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
                     pin += key.KeyChar;
                     Console.Write("*");
