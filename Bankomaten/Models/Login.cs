@@ -62,7 +62,7 @@ namespace Bankomaten.Models
         {
             DateTime lockoutEnd = DateTime.Now.AddMinutes(3);
             
-            Console.WriteLine("Du kan försöka logga in igen om 3 minuter");
+            Console.WriteLine("Du kan försöka igen om 3 minuter");
             
             while (lockoutEnd > DateTime.Now)
             {
