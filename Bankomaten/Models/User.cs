@@ -33,8 +33,8 @@ namespace Bankomaten.Models
         // Konstruktor
         public User(int userId, string userName, string passWord)
         {
-            UserName = userName;
-            PassWord = passWord;
+            Username = userName;
+            Password = passWord;
             UserId = userId;
         }
 
@@ -42,7 +42,7 @@ namespace Bankomaten.Models
 
         public static User? FindUser(string? username, string? pin)
         {
-            return UserList.FirstOrDefault(u => u.UserName == username && u.PassWord == pin);
+            return UserList.FirstOrDefault(u => u.Username == username && u.Password == pin);
         }
 
         // Metod för att visa info om den inloggade användaren
@@ -50,7 +50,7 @@ namespace Bankomaten.Models
         {
             Console.WriteLine($"\n---Användar Profil ---");
             Console.WriteLine($"ID: {UserId}");
-            Console.WriteLine($"Användarnamn: {UserName}");
+            Console.WriteLine($"Användarnamn: {Username}");
             Console.WriteLine($"Antal Konton: {Accounts.Count}");
         }
              
