@@ -25,7 +25,7 @@ namespace Bankomaten.Models
         {
             new User(1, "Ammar", "1234"),
             new User(2, "Mattias", "1234"),
-            new User(3, "Lukas", "1234"),
+            new User(3, "Lukas", "1234"), 
             new User(4, "Marco", "1234"),
             new User(5, "Kalle", "1234")
         };
