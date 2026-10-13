@@ -45,16 +45,11 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du föra över?");
                         if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
 
-                       
-                        
-                        
-                        if (!accountsDict.TryGetValue(fromAccount, out Account? fromChosenAccount) ||
-                            !accountsDict.TryGetValue(toAccount, out Account? toChosenAccount))
+                        if (!accountsDict.TryGetValue(fromAccount, out Account? fromChosenAccount) || !accountsDict.TryGetValue(toAccount, out Account? toChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-                                               
 
                         Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
                         Utilities.enterPress();
@@ -88,7 +83,6 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du ta ut? ");
                         if (!Utilities.GenericParse(out decimal amount)) continue;
 
-                       
                         if (!accountsDict.TryGetValue(accId,out Account? chosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
