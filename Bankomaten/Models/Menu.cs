@@ -1,4 +1,4 @@
-﻿using System.Security.AccessControl;
+using System.Security.AccessControl;
 using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
