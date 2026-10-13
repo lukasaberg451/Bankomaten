@@ -45,14 +45,6 @@ namespace Bankomaten.Models
             return UserList.FirstOrDefault(u => u.Username == username && u.Password == pin);
         }
 
-        // Metod för att visa info om den inloggade användaren
-        public void ShowUserInfo()
-        {
-            Console.WriteLine($"\n---Användar Profil ---");
-            Console.WriteLine($"ID: {UserId}");
-            Console.WriteLine($"Användarnamn: {Username}");
-            Console.WriteLine($"Antal Konton: {Accounts.Count}");
-        }
              
     }
 }
