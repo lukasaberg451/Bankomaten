@@ -1,4 +1,4 @@
-﻿using System.Security.AccessControl;
+using System.Security.AccessControl;
 using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
@@ -37,23 +37,26 @@ namespace Bankomaten.Models
                         Utilities.CheckAmount(accountsDict);
 
                         Console.WriteLine("Vilket konto skall du sätta in på?");
-                        if (!Utilities.GenericParse(out int outAcc)) continue;
+                        if (!Utilities.GenericParse(out int fromAccount)) continue;
 
                         Console.WriteLine("Vilket konto skall du ta ut från?");
-                        if (!Utilities.GenericParse(out int inAcc)) continue;
+                        if (!Utilities.GenericParse(out int toAccount)) continue;
 
                         Console.WriteLine("Hur mycket skall du föra över?");
                         if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
 
-                        var outChosenAccount = accountsDict[outAcc];
-                        var innChosenAccount = accountsDict[inAcc];
-                        if (innChosenAccount == null || outChosenAccount == null)
+                       
+                        
+                        
+                        if (!accountsDict.TryGetValue(fromAccount, out Account? fromChosenAccount) ||
+                            !accountsDict.TryGetValue(toAccount, out Account? toChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
+                                               
 
-                        Utilities.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
+                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
                         Utilities.enterPress();
                         break;
 
@@ -66,8 +69,7 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du sätta in? ");
                         if (!Utilities.GenericParse(out decimal inAmount)) continue;
 
-                        var inChosenAccount = accountsDict[inAccId];
-                        if (inChosenAccount == null)
+                        if (!accountsDict.TryGetValue(inAccId, out Account? inChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
@@ -86,8 +88,8 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du ta ut? ");
                         if (!Utilities.GenericParse(out decimal amount)) continue;
 
-                        var chosenAccount = accountsDict[accId];
-                        if (chosenAccount == null)
+                       
+                        if (!accountsDict.TryGetValue(accId,out Account? chosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
@@ -150,6 +152,8 @@ namespace Bankomaten.Models
         public static void ShowMenuOptions()
         {
             string[] options = { "1. Se dina konton och saldo", "2. Överföring mellan konton", "3. Sätt in pengar", "4. Ta ut pengar", "5. Öppna Konto", "6. Logga ut" };
+
+            Console.WriteLine();
 
             foreach (string option in options)
             {

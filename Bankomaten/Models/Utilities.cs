@@ -1,4 +1,4 @@
-﻿using System.Net.NetworkInformation;
+using System.Net.NetworkInformation;
 using System.Security;
 using System.Text;
 using System.Globalization;
@@ -60,7 +60,7 @@ namespace Bankomaten.Models
 
             do
             {
-                string pinCode = GetConsolePassword();
+                string? pinCode = GetConsolePin();
 
                 if (user.Password == pinCode)
                 {
@@ -83,7 +83,6 @@ namespace Bankomaten.Models
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
 
-            
         }
 
         /// <summary>
@@ -103,6 +102,7 @@ namespace Bankomaten.Models
                 Console.WriteLine($"Det nya saldot på kontot: {depositAccount.balance}");
             }
             
+
         }
 
         /// <summary>
@@ -144,37 +144,40 @@ namespace Bankomaten.Models
 
         /// <summary>
         /// Gets the console password.
+        /// Hides the characters in password
         /// </summary>
         /// <returns></returns>
-        public static string GetConsolePassword()
+        public static string GetConsolePin()
         {
-            StringBuilder sb = new StringBuilder();
-            while (true)
+
+            string pin = "";
+            ConsoleKeyInfo key;
+
+            do
             {
-                ConsoleKeyInfo cki = Console.ReadKey(true);
-                if (cki.Key == ConsoleKey.Enter)
-                {
-                    Console.WriteLine();
-                    break;
-                }
+                key = Console.ReadKey(true);
 
-                if (cki.Key == ConsoleKey.Backspace)
+                
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
-                    if (sb.Length > 0)
+                    pin += key.KeyChar;
+                    Console.Write("*");
+                }
+                else if (key.Key == ConsoleKey.Backspace)
+                {
+                     
+                    if (pin.Length > 0)
                     {
-                        Console.Write("\b\0\b");
-                        sb.Length--;
+                        pin = pin.Substring(0, pin.Length - 1);
+                        Console.Write("\b \b");
                     }
-
-                    continue;
                 }
-
-                Console.Write('*');
-                sb.Append(cki.KeyChar);
             }
+           
+            while (key.Key != ConsoleKey.Enter );
+           
+            return pin.TrimEnd('\r', '\n');
 
-            return sb.ToString();
-            
         }
 
         // Generic parse för olika datatyper tex int, decimal och double
@@ -188,7 +191,6 @@ namespace Bankomaten.Models
             Console.WriteLine(errorMessage);
             return false;
         }
-
         public static void enterPress()
         {
             Console.Write("Tryck <Enter> för att återgå till meny... ");
