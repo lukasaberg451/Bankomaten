@@ -1,4 +1,4 @@
-﻿using System.Net.NetworkInformation;
+using System.Net.NetworkInformation;
 using System.Security;
 using System.Text;
 using System.Globalization;
@@ -16,7 +16,7 @@ namespace Bankomaten.Models
             if (accounts.Count == 0)
             {
                 Console.WriteLine("Du har inga konton.");
-                 
+
             }
             Console.WriteLine("\n --- Saldo -----");
             Console.WriteLine("Dina konton:");
@@ -39,12 +39,7 @@ namespace Bankomaten.Models
         /// <param name="withDrawAccount">vilket konto det gäller</param>
         public static void WithdrawAmount(User user, decimal amount, Account withDrawAccount)
         {
-            // Om användare skriver fel kontonummer finns inte kontot i dictionary.
-            if (withDrawAccount == null)
-            {
-                Console.WriteLine("Uttag misslyckades: Kontot existerar inte. ");
-                return;
-            }
+
             if (amount <= 0)
             {
                 Console.WriteLine("Beloppet måste vara större än noll.");
@@ -97,13 +92,6 @@ namespace Bankomaten.Models
         /// <param name="depositAccount">vilket konto det gäller</param>
         public static void Deposit(decimal amount, Account depositAccount)
         {
-            // Om användare skriver kontonummer som ej finns i menyn. 
-            if (depositAccount == null)
-            {
-                Console.WriteLine("Insättning misslyckades: Kontot existerar inte.");
-                return;
-            }
-
             if (amount <= 0)
             {
                 Console.WriteLine("Du försöker lägga in ett minustal på beloppet eller noll");
@@ -127,12 +115,6 @@ namespace Bankomaten.Models
         /// <param name="targetAccount">kontot som pengarna skal läggas till på.</param>
         public static void Transfer(decimal amount, Account sourceAccount, Account targetAccount)
         {
-            // Överföring kräver 2 giltiga konton. 
-            if (sourceAccount == null || targetAccount == null)
-            {
-                Console.WriteLine("Överföring misslyckades: Ett eller båda kontona existerar inte.");
-                return;
-            }
             if (amount <= 0)
             {
                 Console.WriteLine("Beloppet måste vara större än noll.");
@@ -149,16 +131,14 @@ namespace Bankomaten.Models
             try
             {
                 targetAccount.balance += amount;
-                Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} ");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Insättningen misslyckades",ex);
                 sourceAccount.balance = originalBalance;
-                return; // avbryter metoden 
             }
             
-            
+            Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} ");
            
         }
 
