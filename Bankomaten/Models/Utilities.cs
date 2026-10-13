@@ -66,7 +66,7 @@ namespace Bankomaten.Models
                 {
                     isAuthenticated = true;
                     withDrawAccount.balance -= amount;
-                    Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {withDrawAccount.balance:C}");
+                    Console.WriteLine($"\nUttag: {amount:C}. Nytt saldo: {withDrawAccount.balance:C}");
                     return;
                 }
                 else
