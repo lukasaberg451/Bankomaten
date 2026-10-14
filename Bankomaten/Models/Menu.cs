@@ -52,10 +52,7 @@ namespace Bankomaten.Models
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
-                        currentTransactions.Push(new Transactions(fromChosenAccount, amountTransfer, '-', DateTime.Now));
-                        currentTransactions.Push(new Transactions(toChosenAccount, amountTransfer, '+', DateTime.Now));
+                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -73,9 +70,7 @@ namespace Bankomaten.Models
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Deposit(inAmount, inChosenAccount);
-                        currentTransactions.Push(new Transactions(inChosenAccount, inAmount, '+', DateTime.Now));
+                        Utilities.Deposit(inAmount, inChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -94,8 +89,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Utilities.WithdrawAmount(user, amount, chosenAccount);
-                        currentTransactions.Push(new Transactions(chosenAccount, amount, '-', DateTime.Now));
+                        Utilities.WithdrawAmount(user, amount, chosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
