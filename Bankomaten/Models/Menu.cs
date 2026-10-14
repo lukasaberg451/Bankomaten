@@ -54,8 +54,8 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
-                        currentTransactions.Push(new Transactions(fromChosenAccount, amountTransfer, '-'));
-                        currentTransactions.Push(new Transactions(toChosenAccount, amountTransfer, '+'));
+                        currentTransactions.Push(new Transactions(fromChosenAccount, amountTransfer, '-', DateTime.Now));
+                        currentTransactions.Push(new Transactions(toChosenAccount, amountTransfer, '+', DateTime.Now));
                         Utilities.enterPress();
                         break;
 
@@ -75,7 +75,7 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.Deposit(inAmount, inChosenAccount);
-                        currentTransactions.Push(new Transactions(inChosenAccount, inAmount, '+'));
+                        currentTransactions.Push(new Transactions(inChosenAccount, inAmount, '+', DateTime.Now));
                         Utilities.enterPress();
                         break;
 
@@ -95,7 +95,7 @@ namespace Bankomaten.Models
                         }
 
                         Utilities.WithdrawAmount(user, amount, chosenAccount);
-                        currentTransactions.Push(new Transactions(chosenAccount, amount, '-'));
+                        currentTransactions.Push(new Transactions(chosenAccount, amount, '-', DateTime.Now));
                         Utilities.enterPress();
                         break;
 

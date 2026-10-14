@@ -7,6 +7,7 @@
         private Account Konto;
         private decimal Pengar;
         private char Operator;
+        public DateTime Time;
 
         // Properties
         public Account konto
@@ -26,20 +27,21 @@
         }
 
         // Constructor
-        public Transactions(Account transaktionsKonto, decimal transaktionsPengar, char op)
+        public Transactions(Account transaktionsKonto, decimal transaktionsPengar, char op, DateTime time)
         {
             konto = transaktionsKonto;
             pengar = transaktionsPengar;
             _operator = op;
+            Time = time;
         }
         public static void ShowTransactions(Stack<Transactions> transactionsStack)
         {
-            Console.WriteLine("--- Senaste Transaktioner ---");
+            Console.WriteLine("--------------- Senaste Transaktioner ---------------");
             foreach (Transactions trans in transactionsStack)
             {
-                Console.WriteLine($"{trans.konto.name} {trans._operator}{trans.pengar:C}");
+                Console.WriteLine($"{trans.Time} : {trans.konto.name} {trans._operator}{trans.pengar:C}");
             }
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("-----------------------------------------------------");
         }
     }
 }
