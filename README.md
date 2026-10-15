@@ -99,7 +99,16 @@ Finns filen inte skapas den med standardvärden från `Account.AddAccountData`. 
 
 ## Reflektion
 
-_TODO: Motivera hur ni byggt upp programmet, vilka andra lösningar ni övervägt, vad ni skulle göra annorlunda och vilka förbättringar ni ser men inte hunnit göra. Reflektera särskilt över valet av datastrukturer och klassindelningen._
+Programmet är byggt kring grundtanken att menyn är den centrala delen av programmet. När användaren väl är inloggad så finns konton tillgängliga i programmets minne så att användaren kan utföra önskade funktioner, så som att ta ut pengar, överföra pengar, eller öppna nya konton. Menyn innehåller en stor del av kontrollerna vi gör på användarens inmatningar; vi använder en Generic metod för att kunna parse flera olika sorts data typer med en och samma metod.
+
+Först när en godkänd inmatning görs kan en funktion köras, som finns samlade i en klass kallad "Utilities" där alla uträkningar och transaktioner sker. Även här görs kontroller på all inmatning så att inget ogiltligt värde kan användas; tex görs en kontroll på att det finns tillräckligt med pengar på kontot innan pengarna dras. När en funktion har körts klart, så kommer användaren tillbaka till menyn, och får välja valfri funktion igen. När användaren loggar ut, så sparas alla ändringar till fil.
+
+Vi har klasserna User och Account som vardera innehåller Constructor och tillhörande metoder. I Account använder vi Constructor overloading för att tillgodose att kontona kan skapas antingen via en inbyggd metod, eller från lokal fil. Vi använder även en Enum för att benämna de olika kontotyperna som banken har.
+Vi har valt att använda datastrukturen Array till att skriva ut meny-alternativen, samt till sparfunktionen, där varje konto representeras av en string, som sedan blir uppdelad i sina korrekta variabler, så att programmet kan använda datan.
+Vi använder två olika List där vi håller isär alla konton i "databasen" samt den inloggade användarens konton. Vidare har vi en Dictionary som låter oss numrera och ger tillgång till kontona med ett index som vi själva valt.
+Sist men inte minst har vi en Stack som lagrar alla giltiga transaktioner och visar dem för användaren 
+
+Funktionalitet som vi har övervägt, men valt bort av olika anledningar är ett system för att skapa nya användare, att flytta pengar mellan användares konton, och kontohistorik som sparas till fil. Vi har även tänkt på att använda oss av Class Library, men det skulle troligen kräva att stora delar av programmet skulle behövas skriva om från grunden.
 
 ## Arbetsfördelning
 ### Ammar
