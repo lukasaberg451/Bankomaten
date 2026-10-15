@@ -52,10 +52,7 @@ namespace Bankomaten.Models
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount);
-                        currentTransactions.Push(new Transactions(fromChosenAccount, amountTransfer, '-'));
-                        currentTransactions.Push(new Transactions(toChosenAccount, amountTransfer, '+'));
+                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -73,9 +70,7 @@ namespace Bankomaten.Models
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Deposit(inAmount, inChosenAccount);
-                        currentTransactions.Push(new Transactions(inChosenAccount, inAmount, '+'));
+                        Utilities.Deposit(inAmount, inChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -94,8 +89,7 @@ namespace Bankomaten.Models
                             continue;
                         }
 
-                        Utilities.WithdrawAmount(user, amount, chosenAccount);
-                        currentTransactions.Push(new Transactions(chosenAccount, amount, '-'));
+                        Utilities.WithdrawAmount(user, amount, chosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -145,7 +139,9 @@ namespace Bankomaten.Models
                         Console.WriteLine("Ogiltigt val");
                         break;
                 }
-                if (currentTransactions.Count == 0)
+
+                // Visa senaste transaktioner om användaren har gjort transaktioner
+                if (currentTransactions.Count == 0 || logOut == true)
                 {
                     //Gör ingenting
                 }

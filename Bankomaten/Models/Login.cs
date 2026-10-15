@@ -32,7 +32,7 @@ namespace Bankomaten.Models
                 {
                     isAuthenticated = false;
                     failedAttempts++;
-                    Console.WriteLine($"Fel användarnamn eller pinkod, du har {allowedAttempts - failedAttempts} försök kvar");
+                    Console.WriteLine($"\nFel användarnamn eller pinkod, du har {allowedAttempts - failedAttempts} försök kvar");
                 }
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
