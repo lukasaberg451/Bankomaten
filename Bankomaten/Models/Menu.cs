@@ -1,4 +1,3 @@
-﻿using System.Security.AccessControl;
 using static Bankomaten.Models.Account;
 
 namespace Bankomaten.Models
@@ -16,12 +15,15 @@ namespace Bankomaten.Models
             //Dictionary numrerar de aktuella kontona för användaren
             Dictionary<int, Account> accountsDict = new(indexAccounts(currentUserAccounts));
 
+            //Stack håller reda på transaktionshistorik
+            Stack<Transactions> currentTransactions = new Stack<Transactions>();
+
             bool logOut = false;
 
             while (logOut != true)
             {
                 ShowMenuOptions();
-                
+
                 if (!Utilities.GenericParse(out int userSelection, "Ogiltigt val")) continue;
 
                 switch (userSelection)
@@ -37,23 +39,20 @@ namespace Bankomaten.Models
                         Utilities.CheckAmount(accountsDict);
 
                         Console.WriteLine("Vilket konto skall du sätta in på?");
-                        if (!Utilities.GenericParse(out int fromAccount)) continue;
+                        if (!Utilities.GenericParse(out int toAccount)) continue;
 
                         Console.WriteLine("Vilket konto skall du ta ut från?");
-                        if (!Utilities.GenericParse(out int toAccount)) continue;
+                        if (!Utilities.GenericParse(out int fromAccount)) continue;
 
                         Console.WriteLine("Hur mycket skall du föra över?");
                         if (!Utilities.GenericParse(out decimal amountTransfer)) continue;
 
-                        var outChosenAccount = accountsDict[fromAccount];
-                        var innChosenAccount = accountsDict[toAccount];
-                        if (innChosenAccount == null || outChosenAccount == null)
+                        if (!accountsDict.TryGetValue(fromAccount, out Account? fromChosenAccount) || !accountsDict.TryGetValue(toAccount, out Account? toChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Transfer(amountTransfer, innChosenAccount, outChosenAccount);
+                        Utilities.Transfer(amountTransfer, fromChosenAccount, toChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -66,14 +65,12 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du sätta in? ");
                         if (!Utilities.GenericParse(out decimal inAmount)) continue;
 
-                        var inChosenAccount = accountsDict[inAccId];
-                        if (inChosenAccount == null)
+                        if (!accountsDict.TryGetValue(inAccId, out Account? inChosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
-
-                        Utilities.Deposit(inAmount, inChosenAccount);
+                        Utilities.Deposit(inAmount, inChosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -86,14 +83,13 @@ namespace Bankomaten.Models
                         Console.WriteLine("Hur mycket skall du ta ut? ");
                         if (!Utilities.GenericParse(out decimal amount)) continue;
 
-                        var chosenAccount = accountsDict[accId];
-                        if (chosenAccount == null)
+                        if (!accountsDict.TryGetValue(accId, out Account? chosenAccount))
                         {
                             Console.WriteLine("Kontot hittades inte, försök igen.");
                             continue;
                         }
 
-                        Utilities.WithdrawAmount(user, amount, chosenAccount);
+                        Utilities.WithdrawAmount(user, amount, chosenAccount, currentTransactions);
                         Utilities.enterPress();
                         break;
 
@@ -142,6 +138,16 @@ namespace Bankomaten.Models
                     default:
                         Console.WriteLine("Ogiltigt val");
                         break;
+                }
+
+                // Visa senaste transaktioner om användaren har gjort transaktioner
+                if (currentTransactions.Count == 0 || logOut == true)
+                {
+                    //Gör ingenting
+                }
+                else
+                {
+                    Transactions.ShowTransactions(currentTransactions);
                 }
             }
         }

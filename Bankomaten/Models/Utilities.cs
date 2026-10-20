@@ -1,4 +1,4 @@
-﻿using System.Net.NetworkInformation;
+using System.Net.NetworkInformation;
 using System.Security;
 using System.Text;
 using System.Globalization;
@@ -37,7 +37,7 @@ namespace Bankomaten.Models
         /// <param name="user">Inloggad användare</param>
         /// <param name="amount">summa som skall dras</param>
         /// <param name="withDrawAccount">vilket konto det gäller</param>
-        public static void WithdrawAmount(User user, decimal amount, Account withDrawAccount)
+        public static void WithdrawAmount(User user, decimal amount, Account withDrawAccount, Stack<Transactions> currentTransactions)
         {
 
             if (amount <= 0)
@@ -66,7 +66,8 @@ namespace Bankomaten.Models
                 {
                     isAuthenticated = true;
                     withDrawAccount.balance -= amount;
-                    Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {withDrawAccount.balance:C}");
+                    currentTransactions.Push(new Transactions(withDrawAccount, amount, '-', DateTime.Now));
+                    Console.WriteLine($"\nUttag: {amount:C}. Nytt saldo: {withDrawAccount.balance:C}");
                     return;
                 }
                 else
@@ -83,7 +84,6 @@ namespace Bankomaten.Models
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
 
-            
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Bankomaten.Models
         /// </summary>
         /// <param name="amount">summa för insättning</param>
         /// <param name="depositAccount">vilket konto det gäller</param>
-        public static void Deposit(decimal amount, Account depositAccount)
+        public static void Deposit(decimal amount, Account depositAccount, Stack<Transactions> currentTransactions)
         {
             if (amount <= 0)
             {
@@ -100,6 +100,7 @@ namespace Bankomaten.Models
             else
             {
                 depositAccount.balance += amount;
+                currentTransactions.Push(new Transactions(depositAccount, amount, '+', DateTime.Now));
                 Console.WriteLine($"Det nya saldot på kontot: {depositAccount.balance}");
             }
             
@@ -114,7 +115,7 @@ namespace Bankomaten.Models
         /// <param name="amount">Beloppet som skall överföras.</param>
         /// <param name="sourceAccount">Kontot som pengarna dras från.</param>
         /// <param name="targetAccount">kontot som pengarna skal läggas till på.</param>
-        public static void Transfer(decimal amount, Account sourceAccount, Account targetAccount)
+        public static void Transfer(decimal amount, Account sourceAccount, Account targetAccount, Stack<Transactions> currentTransactions)
         {
             if (amount <= 0)
             {
@@ -138,7 +139,8 @@ namespace Bankomaten.Models
                 Console.WriteLine("Insättningen misslyckades",ex);
                 sourceAccount.balance = originalBalance;
             }
-            
+            currentTransactions.Push(new Transactions(sourceAccount, amount, '-', DateTime.Now));
+            currentTransactions.Push(new Transactions(targetAccount, amount, '+', DateTime.Now));
             Console.WriteLine($"Uttag: {amount:C}. Nytt saldo: {sourceAccount.accType} {sourceAccount.balance:C} och nytt saldo {targetAccount.accType} {targetAccount.balance:C} ");
            
         }
@@ -166,9 +168,12 @@ namespace Bankomaten.Models
                 }
                 else if (key.Key == ConsoleKey.Backspace)
                 {
+                     
                     if (pin.Length > 0)
+                    {
                         pin = pin.Substring(0, pin.Length - 1);
-                    Console.Write("\b \b");
+                        Console.Write("\b \b");
+                    }
                 }
             }
            
@@ -177,7 +182,6 @@ namespace Bankomaten.Models
             return pin.TrimEnd('\r', '\n');
 
         }
-
 
         // Generic parse för olika datatyper tex int, decimal och double
         public static bool GenericParse<T>(out T result, string errorMessage = "Ogiltig inmatning, försök igen")
@@ -190,7 +194,6 @@ namespace Bankomaten.Models
             Console.WriteLine(errorMessage);
             return false;
         }
-
         public static void enterPress()
         {
             Console.Write("Tryck <Enter> för att återgå till meny... ");

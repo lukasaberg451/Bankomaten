@@ -1,4 +1,4 @@
-﻿namespace Bankomaten.Models
+namespace Bankomaten.Models
 {
     internal class Account
     {
@@ -27,7 +27,7 @@
             OwnerId = ownerid;
             Random randomId = new Random();
             AccountNumber = randomId.Next(100000000, 999999999); //Kontot får ett slumpmässigt "kontonummer"
-            AccountName = accountname;
+            AccountName = accountname.Replace(";", "");
             Balance = balance;
             AccountType = accounttype;
         }

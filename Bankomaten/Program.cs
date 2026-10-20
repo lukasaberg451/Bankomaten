@@ -1,4 +1,4 @@
-﻿using Bankomaten.Models;
+using Bankomaten.Models;
 
 namespace Bankomaten
 {
