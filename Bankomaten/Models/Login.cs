@@ -32,7 +32,7 @@ namespace Bankomaten.Models
                 {
                     isAuthenticated = false;
                     failedAttempts++;
-                    Console.WriteLine($"Fel användarnamn eller pinkod, du har {allowedAttempts - failedAttempts} försök kvar");
+                    Console.WriteLine($"\nFel användarnamn eller pinkod, du har {allowedAttempts - failedAttempts} försök kvar");
                 }
             }
             while (failedAttempts < allowedAttempts && isAuthenticated != true);
@@ -62,7 +62,7 @@ namespace Bankomaten.Models
         {
             DateTime lockoutEnd = DateTime.Now.AddMinutes(3);
             
-            Console.WriteLine("Du kan försöka logga in igen om 3 minuter");
+            Console.WriteLine("Du kan försöka igen om 3 minuter");
             
             while (lockoutEnd > DateTime.Now)
             {
