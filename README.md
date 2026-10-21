@@ -104,9 +104,8 @@ Transaktionshistoriken sparas inte till fil. Den finns bara kvar så länge anv�
 - Transaktionshistorik som visar de senaste transaktionerna under inloggningen
 
 # Reflektion
-Vi har jobbat med täta kontakter (dagliga avstämningar), för att se till att alla har någonting att göra varje dag, samt att stämma av hur långt vi har kommit.
-Vi har varit bra på att snabbt hitta lösningar på problem, men kanske svagare på att göra en robust planering. Vår första plan höll inte, utan vi fick tänka om ganska tidigt i projektet.
-Det har funnits en viss frustration över att "jobba i blindo" med koden, inte ha direkt insyn i övriga (eller ännu inte existerande) klasser, inte kunna testa sin kod. Detta speciellt i början av projektet, innan klasser eller grundläggande metoder var på plats.
+Gruppen har jobbat med täta kontakter (dagliga avstämningar), för att se till att alla har någonting att göra varje dag, samt att stämma av hur långt vi har kommit.
+Vi har varit bra på att snabbt hitta lösningar på utmaningarna, men kanske svagare på att göra en robust planering och kanske våra dagliga möten väger upp den snabba uppstarten för att skapa en prototyp som vi sedan ändrade ganska tidigt när vi insåg att det blev för kompliserat arbetssätt. Där kom det fram en viss frustration över att "jobba i blindo" med koden, inte ha direkt insyn i övriga (eller ännu inte existerande) klasser, inte kunna testa sin kod. Detta speciellt i början av projektet, innan klasser eller grundläggande metoder var på plats. 
 
 Delning av kod i GitHub har haft vissa utmaningar, där vi ibland har väntat på varandras commits / pushes, vilket har försvårat planeringen på arbetsdagen. Samt att vi har haft vissa problem med merges som sparar över arbete som någon har gjort, detta trots att vi försökt vara noga med konflikthantering och kommunicera när vi har gjort våra pushes. Vi känner att vi behöver öva mer på konflikthantering i GitHub, och/eller ett mer branch-orienterat arbetssätt där man skapar branches och stänger ner dem allt eftersom man jobbar, vilket vi tror underlättar när man gör merges till master branchen.
 Projektet har varit en bra utmaning, och lärorikt, speciellt vad gäller samarbete och GitHub.
