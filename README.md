@@ -103,8 +103,15 @@ Transaktionshistoriken sparas inte till fil. Den finns bara kvar så länge anv�
 - Öppna nytt konto med valfri kontotyp
 - Transaktionshistorik som visar de senaste transaktionerna under inloggningen
 
-## Reflektion
+# Reflektion
+Vi har jobbat med täta kontakter (dagliga avstämningar), för att se till att alla har någonting att göra varje dag, samt att stämma av hur långt vi har kommit.
+Vi har varit bra på att snabbt hitta lösningar på problem, men kanske svagare på att göra en robust planering. Vår första plan höll inte, utan vi fick tänka om ganska tidigt i projektet.
+Det har funnits en viss frustration över att "jobba i blindo" med koden, inte ha direkt insyn i övriga (eller ännu inte existerande) klasser, inte kunna testa sin kod. Detta speciellt i början av projektet, innan klasser eller grundläggande metoder var på plats.
 
+Delning av kod i GitHub har haft vissa utmaningar, där vi ibland har väntat på varandras commits / pushes, vilket har försvårat planeringen på arbetsdagen. Samt att vi har haft vissa problem med merges som sparar över arbete som någon har gjort, detta trots att vi försökt vara noga med konflikthantering och kommunicera när vi har gjort våra pushes. Vi känner att vi behöver öva mer på konflikthantering i GitHub, och/eller ett mer branch-orienterat arbetssätt där man skapar branches och stänger ner dem allt eftersom man jobbar, vilket vi tror underlättar när man gör merges till master branchen.
+Projektet har varit en bra utmaning, och lärorikt, speciellt vad gäller samarbete och GitHub.
+
+## Programmets uppbyggnad
 Programmet är byggt kring grundtanken att menyn är den centrala delen av programmet. När användaren väl är inloggad så finns konton tillgängliga i programmets minne så att användaren kan utföra önskade funktioner, så som att ta ut pengar, överföra pengar, eller öppna nya konton. Menyn innehåller en stor del av kontrollerna vi gör på användarens inmatningar; vi använder en Generic metod för att kunna parse flera olika sorts data typer med en och samma metod.
 
 Först när en godkänd inmatning görs kan en funktion köras, som finns samlade i en klass kallad "Utilities" där alla uträkningar och transaktioner sker. Även här görs kontroller på all inmatning så att inget ogiltligt värde kan användas; tex görs en kontroll på att det finns tillräckligt med pengar på kontot innan pengarna dras. När en funktion har körts klart, så kommer användaren tillbaka till menyn, och får välja valfri funktion igen. När användaren loggar ut, så sparas alla ändringar till fil.
