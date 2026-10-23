@@ -195,10 +195,11 @@ namespace Bankomaten.Models
             return false;
         }
 
+        // Metod som väntar på enter innan man kan fortsätta
         public static void enterPress()
         {
             Console.Write("Tryck <Enter> för att återgå till meny... ");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
             Console.Clear();
         }
     }
