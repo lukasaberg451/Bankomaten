@@ -185,7 +185,7 @@ namespace Bankomaten.Models
 
         // Generic parse för olika datatyper tex int, decimal och double
         public static bool GenericParse<T>(out T result, string errorMessage = "Ogiltig inmatning, försök igen")
-            where T : ISpanParsable<T>
+            where T : IParsable<T>
         {
             if (T.TryParse(Console.ReadLine(), CultureInfo.CurrentCulture, out result))
             {
@@ -194,6 +194,7 @@ namespace Bankomaten.Models
             Console.WriteLine(errorMessage);
             return false;
         }
+
         public static void enterPress()
         {
             Console.Write("Tryck <Enter> för att återgå till meny... ");
