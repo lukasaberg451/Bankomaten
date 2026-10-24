@@ -132,6 +132,7 @@ namespace Bankomaten.Models
 
                             //När användaren loggar ut, skriv alla kontona till filen så att de sparas
                             WriteAccountFile(path, AllAccounts);
+                            Console.Clear();
                             break;
                         }
 
